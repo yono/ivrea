@@ -6,7 +6,7 @@ function Header() {
   return (
     <div>
       <AppBar>
-        Slack
+        Like a Slack
       </AppBar>
     </div>
   );
