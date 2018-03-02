@@ -85,10 +85,6 @@ class Main extends React.Component {
             <Channel
               talks={this.state.talks}
             />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={12}>
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               handleSendTalk={(e, i, _talk) => this.handleSendTalk(e, i, _talk)}

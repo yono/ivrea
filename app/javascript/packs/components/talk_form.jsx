@@ -14,13 +14,13 @@ class TalkForm extends React.Component {
       <div>
         <form onSubmit={(e) => this.props.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value)}>
           <Grid container>
-            <Grid item xs={11}>
+            <Grid item xs={10}>
               <TextField
                 fullWidth={true}
                 id="SendButton"
               />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Button
                 type="submit"
                 variant="raised"
