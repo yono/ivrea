@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.2.2",
+    "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
     "material-ui": "^1.0.0-beta.35",
     "material-ui-icons": "^1.0.0-beta.35",
