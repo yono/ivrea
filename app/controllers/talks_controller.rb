@@ -10,7 +10,7 @@ class TalksController < ApplicationController
 
   def create
     channel = Channel.find params[:channel_id]
-    @talk = channel.talks.new(talk_params)
+    @talk = channel.talks.new(talk_params.merge(user_name: session[:user]))
     if @talk.save
       respond_to do |format|
         format.json { render json: @talk, status: :created}

@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 general_channel = Channel.find_or_create_by!(name: 'General')
-general_channel.talks.create!(note: 'Hello Like a Slack!') if general_channel.talks.count.zero?
+general_channel.talks.create!(note: 'Hello Like a Slack!', user_name: 'Initial User') if general_channel.talks.count.zero?
 
 random_channel = Channel.find_or_create_by!(name: 'Random')
-random_channel.talks.create!(note: 'How do you?') if random_channel.talks.count.zero?
+random_channel.talks.create!(note: 'How do you?', user_name: 'Initial User') if random_channel.talks.count.zero?

@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :channels, only: :index do
     resources :talks, only: [:index, :create]
   end
+  resources :sessions, only: %i(new create)
 end
