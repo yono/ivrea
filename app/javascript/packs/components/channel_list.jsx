@@ -1,4 +1,5 @@
 import React from 'react';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import StarIcon from 'material-ui-icons/Star';
 
@@ -28,7 +29,9 @@ class ChannelList extends React.Component {
 
     return (
       <div>
-        <List>
+        <List
+          subheader={<ListSubheader component="div">Channels</ListSubheader>}
+        >
           {channelItems}
         </List>
       </div>
