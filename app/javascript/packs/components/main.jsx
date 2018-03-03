@@ -25,6 +25,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+    this.subscriptChannel();
     axios.get('/channels.json').then((response) => {
       const channels = response.data
       const selectedChannelId = channels[0].id
@@ -38,6 +39,26 @@ class Main extends React.Component {
     }).catch((response) => {
       console.log(response)
     })
+  }
+
+  subscriptChannel() {
+    App.sample = App.cable.subscriptions.create("ChatChannel", {
+        connected() {
+        },
+        disconnected() {
+        },
+        received(data) {
+          const talk = data
+          if (talk.channel_id === this.state.selectedChannelId) {
+            this.setState({talks: this.state.talks.concat([talk])})
+          }
+        },
+        post(channelId, message) {
+          this.perform('post', {channel_id: channelId, message: message});
+        }
+      }
+    );
+    App.sample.received = App.sample.received.bind(this);
   }
 
   handleClickChannel(i) {
@@ -58,24 +79,7 @@ class Main extends React.Component {
 
   handleSendTalk(e, i, _talk) {
     e.preventDefault()
-    const selectedChannelId = i
-    const talk = _talk
-    axios.post('/channels/' + selectedChannelId + '/talks.json', {talk: {note: talk}}).then((response) => {
-      axios.get('/channels.json').then((response) => {
-        const channels = response.data
-        axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
-          this.setState({talks: response.data,
-                         channels: channels,
-                         selectedChannelId: selectedChannelId})
-        }).catch((response) => {
-          console.log(response)
-        })
-      }).catch((reponse) => {
-        console.log(response)
-      })
-    }).catch((response) => {
-      console.log(response)
-    })
+    App.sample.post(i, _talk)
   }
 
   render() {
