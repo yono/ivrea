@@ -14,7 +14,11 @@ const styles = {
   },
   channel: {
     color: '#fff',
-  }
+  },
+  all: {
+    height: '100%',
+    minHeight: '100%',
+  },
 };
 
 class ChannelList extends React.Component {
@@ -42,8 +46,8 @@ class ChannelList extends React.Component {
     )
 
     return (
-      <div>
-        <List
+      <div className={this.props.classes.all}>
+        <List className={this.props.classes.all}
           subheader={<ListSubheader component="div" className={this.props.classes.channelHeader}>Channels</ListSubheader>}
         >
           {channelItems}

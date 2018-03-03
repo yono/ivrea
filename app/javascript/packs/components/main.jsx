@@ -10,7 +10,13 @@ const styles = {
   sideBar: {
     color: '#fff',
     backgroundColor: '#4d394b',
+    height: '100%',
+    minHeight: '100%',
   },
+  all: {
+    height: '100%',
+    minHeight: '100%',
+  }
 };
 
 class Main extends React.Component {
@@ -84,8 +90,8 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid container>
+      <div className={this.props.classes.all}>
+        <Grid container className={this.props.classes.all}>
           <Grid item xs={3} className={this.props.classes.sideBar}>
             <ChannelList
               channels={this.state.channels}
