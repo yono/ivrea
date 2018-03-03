@@ -1,7 +1,15 @@
 import React from 'react';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import StarIcon from 'material-ui-icons/Star';
+import { withStyles } from 'material-ui/styles';
+
+const styles = theme => ({
+  title: {
+    marginBottom: 16,
+    fontSize: 14,
+    color: 'primary'
+  },
+});
 
 class ChannelList extends React.Component {
   constructor(props) {
@@ -13,7 +21,7 @@ class ChannelList extends React.Component {
     const channelItems = this.props.channels.map(function (channel) {
         if (channel.id === selectedChannelId) {
           return (
-            <ListItem key={channel.id} value={channel.id} onClick={() => this.props.handleClickChannel(channel.id)} style={{backgroundColor: '#4c9689'}}>
+            <ListItem key={channel.id} value={channel.id} onClick={() => this.props.handleClickChannel(channel.id)}>
               <ListItemText primary={"# " + channel.name}/>
             </ListItem>
           )
@@ -30,7 +38,7 @@ class ChannelList extends React.Component {
     return (
       <div>
         <List
-          subheader={<ListSubheader component="div">Channels</ListSubheader>}
+          subheader={<ListSubheader component="div" className={styles.title}>Channels</ListSubheader>}
         >
           {channelItems}
         </List>

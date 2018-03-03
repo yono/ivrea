@@ -5,9 +5,6 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
-  card: {
-    Width: '9999px',
-  },
   title: {
     marginBottom: 16,
     fontSize: 14,
@@ -21,7 +18,7 @@ class Channel extends React.Component {
     const talks = this.props.talks.map(function (talk) {
         return (
           <ListItem key={talk.id} value={talk.id}>
-            <Card className={styles.card}>
+            <Card>
               <CardContent>
                 <Typography>{talk.user_name + ' ' + talk.created_at}</Typography>
                 <Typography className={styles.title}>
