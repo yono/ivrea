@@ -23,10 +23,14 @@ const styles = theme => ({
 
 class Channel extends React.Component {
 
+  componentDidUpdate() {
+    document.getElementById('note-' + this.props.talks[this.props.talks.length - 1].id).scrollIntoView()
+  }
+
   render() {
     const talks = this.props.talks.map(function (talk) {
         return (
-          <ListItem key={talk.id} value={talk.id}>
+          <ListItem id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card>
               <CardContent>
                 <Typography>{talk.user_name + ' ' + talk.created_at}</Typography>
