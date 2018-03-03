@@ -74,7 +74,7 @@ class Main extends React.Component {
     return (
       <div>
         <Grid container>
-          <Grid item xs={3}>
+          <Grid item xs={3} style={{backgroundColor: '#4d394b'}}>
             <ChannelList
               channels={this.state.channels}
               selectedChannelId={this.state.selectedChannelId}

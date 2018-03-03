@@ -6,7 +6,7 @@ import Typography from 'material-ui/Typography';
 
 function Header() {
   return (
-    <header style={{paddingBottom: '100px'}}>
+    <header style={{paddingBottom: '56px'}}>
       <AppBar>
         <Toolbar>
           <Typography variant="title" color="inherit">
