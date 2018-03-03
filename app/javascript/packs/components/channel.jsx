@@ -10,6 +10,15 @@ const styles = theme => ({
     fontSize: 14,
     color: theme.palette.text.secondary,
   },
+  all: {
+    height: '85%',
+    minHeight: '85%',
+  },
+  allScroll: {
+    height: '85%',
+    minHeight: '85%',
+    overflow: 'auto',
+  }
 });
 
 class Channel extends React.Component {
@@ -32,8 +41,8 @@ class Channel extends React.Component {
     )
 
     return (
-      <div>
-        <List>
+      <div className={this.props.classes.allScroll}>
+        <List className={this.props.classes.allScroll}>
           {talks}
         </List>
       </div>

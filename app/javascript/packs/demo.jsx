@@ -15,7 +15,6 @@ const styles = {
 function App() {
   return (
     <div style={{height: '100%', minHeight: '100%'}}>
-      <Header/>
       <Main/>
     </div>
   );

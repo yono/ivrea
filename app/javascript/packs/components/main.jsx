@@ -16,6 +16,11 @@ const styles = {
   all: {
     height: '100%',
     minHeight: '100%',
+  },
+  allScroll: {
+    height: '100%',
+    minHeight: '100%',
+    overflow: 'auto',
   }
 };
 
@@ -99,9 +104,10 @@ class Main extends React.Component {
               handleClickChannel={i => this.handleClickChannel(i)}
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={9} className={this.props.classes.all}>
             <Channel
               talks={this.state.talks}
+              className={this.props.classes.allScroll}
             />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
