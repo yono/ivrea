@@ -10,6 +10,6 @@ class ChatChannel < ApplicationCable::Channel
   def post(data)
     channel = Channel.find(data['channel_id'])
     talk = channel.talks.create(note: data['message'], user_name: 'from AC')
-    ActionCable.server.broadcast 'chat_channel', talk.to_h
+    ActionCable.server.broadcast 'chat_channel', talk.attributes
   end
 end
