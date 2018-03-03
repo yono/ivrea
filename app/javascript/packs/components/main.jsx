@@ -4,6 +4,14 @@ import Grid from 'material-ui/Grid';
 import ChannelList from './channel_list'
 import Channel from './channel'
 import TalkForm from './talk_form'
+import { withStyles } from 'material-ui/styles';
+
+const styles = {
+  sideBar: {
+    color: '#fff',
+    backgroundColor: '#4d394b',
+  },
+};
 
 class Main extends React.Component {
   constructor(props) {
@@ -74,7 +82,7 @@ class Main extends React.Component {
     return (
       <div>
         <Grid container>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={this.props.classes.sideBar}>
             <ChannelList
               channels={this.state.channels}
               selectedChannelId={this.state.selectedChannelId}
@@ -96,4 +104,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main
+export default withStyles(styles)(Main)

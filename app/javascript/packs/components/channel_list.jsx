@@ -3,13 +3,19 @@ import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 
-const styles = theme => ({
-  title: {
-    marginBottom: 16,
+const styles = {
+  channelHeader: {
     fontSize: 14,
-    color: 'primary'
+    color: '#fff',
   },
-});
+  selectedChannel: {
+    color: '#fff',
+    backgroundColor: '#4c9689',
+  },
+  channel: {
+    color: '#fff',
+  }
+};
 
 class ChannelList extends React.Component {
   constructor(props) {
@@ -21,14 +27,14 @@ class ChannelList extends React.Component {
     const channelItems = this.props.channels.map(function (channel) {
         if (channel.id === selectedChannelId) {
           return (
-            <ListItem key={channel.id} value={channel.id} onClick={() => this.props.handleClickChannel(channel.id)}>
-              <ListItemText primary={"# " + channel.name}/>
+            <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id)}>
+              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
             </ListItem>
           )
         } else {
           return (
-            <ListItem button key={channel.id} value={channel.id} onClick={() => this.props.handleClickChannel(channel.id)}>
-              <ListItemText primary={"# " + channel.name}/>
+            <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id)}>
+              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
             </ListItem>
           )
         }
@@ -38,7 +44,7 @@ class ChannelList extends React.Component {
     return (
       <div>
         <List
-          subheader={<ListSubheader component="div" className={styles.title}>Channels</ListSubheader>}
+          subheader={<ListSubheader component="div" className={this.props.classes.channelHeader}>Channels</ListSubheader>}
         >
           {channelItems}
         </List>
@@ -47,4 +53,4 @@ class ChannelList extends React.Component {
   }
 }
 
-export default ChannelList
+export default withStyles(styles)(ChannelList)
