@@ -101,6 +101,9 @@ class Main extends React.Component {
 
   handleSendTalk(e, i, _talk, userName) {
     e.preventDefault()
+    if (_talk === "") {
+      return
+    }
     this.setState({formValue: ""})
     App.sample.post(i, _talk, userName)
   }
