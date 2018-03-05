@@ -11,6 +11,7 @@ class TalkForm extends React.Component {
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const userName = this.props.userName
+    const formValue = this.props.formValue
     return (
       <div>
         <form onSubmit={(e) => this.props.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userName)}>
@@ -19,6 +20,8 @@ class TalkForm extends React.Component {
               <TextField
                 fullWidth={true}
                 id="SendButton"
+                value={formValue}
+                onChange={(e) => this.props.handleInput(e)}
               />
             </Grid>
             <Grid item xs={2}>

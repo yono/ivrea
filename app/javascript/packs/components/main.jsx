@@ -33,6 +33,7 @@ class Main extends React.Component {
       selectedChannelId: 0,
       talks: [],
       userName: "",
+      formValue: "",
     }
   }
 
@@ -73,7 +74,6 @@ class Main extends React.Component {
           }
         },
         post(channelId, message, userName) {
-          console.log(userName)
           this.perform('post', {channel_id: channelId,
                                 message: message,
                                 user_name: userName});
@@ -101,7 +101,15 @@ class Main extends React.Component {
 
   handleSendTalk(e, i, _talk, userName) {
     e.preventDefault()
+    this.setState({formValue: ""})
     App.sample.post(i, _talk, userName)
+  }
+
+  handleInput(event) {
+    const enter = 13
+    if (event.keyCode != enter) {
+      this.setState({formValue: event.target.value})
+    }
   }
 
   render() {
@@ -123,6 +131,8 @@ class Main extends React.Component {
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
+              handleInput={(event) => this.handleInput(event)}
+              formValue={this.state.formValue}
               userName={this.state.userName}
             />
           </Grid>
