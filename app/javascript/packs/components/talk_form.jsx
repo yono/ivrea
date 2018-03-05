@@ -6,22 +6,36 @@ import Grid from 'material-ui/Grid';
 class TalkForm extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      formValue: ""
+    }
+  }
+
+  handleInput(event) {
+    const enter = 13
+    if (event.keyCode != enter) {
+      this.setState({formValue: event.target.value})
+    }
+  }
+
+  handleSendTalk(e, selectedChannelId, message, userName) {
+    this.setState({formValue: ""})
+    this.props.handleSendTalk(e, selectedChannelId, message, userName)
   }
 
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const userName = this.props.userName
-    const formValue = this.props.formValue
     return (
       <div>
-        <form onSubmit={(e) => this.props.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userName)}>
+        <form onSubmit={(e) => this.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userName)}>
           <Grid container>
             <Grid item xs={10}>
               <TextField
                 fullWidth={true}
                 id="SendButton"
-                value={formValue}
-                onChange={(e) => this.props.handleInput(e)}
+                value={this.state.formValue}
+                onChange={(e) => this.handleInput(e)}
               />
             </Grid>
             <Grid item xs={2}>

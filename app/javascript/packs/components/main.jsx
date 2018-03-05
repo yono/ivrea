@@ -104,15 +104,7 @@ class Main extends React.Component {
     if (_talk === "") {
       return
     }
-    this.setState({formValue: ""})
     App.sample.post(i, _talk, userName)
-  }
-
-  handleInput(event) {
-    const enter = 13
-    if (event.keyCode != enter) {
-      this.setState({formValue: event.target.value})
-    }
   }
 
   render() {
@@ -134,8 +126,6 @@ class Main extends React.Component {
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
-              handleInput={(event) => this.handleInput(event)}
-              formValue={this.state.formValue}
               userName={this.state.userName}
             />
           </Grid>
