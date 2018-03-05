@@ -10,9 +10,10 @@ class TalkForm extends React.Component {
 
   render() {
     const selectedChannelId = this.props.selectedChannelId
+    const userName = this.props.userName
     return (
       <div>
-        <form onSubmit={(e) => this.props.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value)}>
+        <form onSubmit={(e) => this.props.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userName)}>
           <Grid container>
             <Grid item xs={10}>
               <TextField

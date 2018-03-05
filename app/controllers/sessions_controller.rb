@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
   skip_before_action :require_user, only: %i(new create)
 
+  def show
+    render json: session[:user]
+  end
+
   def new
   end
 
