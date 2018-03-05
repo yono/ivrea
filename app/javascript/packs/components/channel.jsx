@@ -5,19 +5,33 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
+  user: {
+    fontSize: 14,
+    paddingBottom: 4,
+  },
   title: {
     marginBottom: 16,
     fontSize: 14,
-    color: theme.palette.text.secondary,
   },
   all: {
-    height: '85%',
-    minHeight: '85%',
+    height: '90%',
+    minHeight: '90%',
   },
   allScroll: {
-    height: '85%',
-    minHeight: '85%',
+    height: '90%',
+    minHeight: '90%',
     overflow: 'auto',
+  },
+  channelListItem: {
+    paddingTop: '0px',
+    paddingBottom: '0px',
+  },
+  channelCard: {
+    boxShadow: 'none',
+  },
+  channelCardContent: {
+    paddingTop: '0px',
+    paddingBottom: '0px',
   }
 });
 
@@ -30,11 +44,11 @@ class Channel extends React.Component {
   render() {
     const talks = this.props.talks.map(function (talk) {
         return (
-          <ListItem id={'note-' + talk.id} key={talk.id} value={talk.id}>
-            <Card>
-              <CardContent>
-                <Typography>{talk.user_name + ' ' + talk.created_at}</Typography>
-                <Typography className={styles.title}>
+          <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
+            <Card className={this.props.classes.channelCard}>
+              <CardContent className={this.props.classes.channelCardContent}>
+                <Typography className={this.props.classes.user}>{talk.user_name + ' ' + talk.created_at}</Typography>
+                <Typography>
                   {talk.note}
                 </Typography>
               </CardContent>
