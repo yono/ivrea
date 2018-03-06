@@ -2,6 +2,13 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
+import { withStyles } from 'material-ui/styles';
+
+const styles = {
+  textField: {
+    paddingLeft: '30px',
+  }
+}
 
 class TalkForm extends React.Component {
   constructor(props) {
@@ -37,6 +44,7 @@ class TalkForm extends React.Component {
                 value={this.state.formValue}
                 onChange={(e) => this.handleInput(e)}
                 placeholder={"Message"}
+                className={this.props.classes.textField}
               />
             </Grid>
             <Grid item xs={2}>
@@ -55,4 +63,4 @@ class TalkForm extends React.Component {
   }
 }
 
-export default TalkForm
+export default withStyles(styles)(TalkForm)

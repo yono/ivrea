@@ -10,7 +10,7 @@ const styles = theme => ({
     paddingBottom: 4,
   },
   title: {
-    marginBottom: 16,
+    marginTop: 16,
     fontSize: 14,
   },
   all: {
@@ -20,6 +20,11 @@ const styles = theme => ({
   allScroll: {
     height: '90%',
     minHeight: '90%',
+    overflow: 'auto',
+  },
+  scroll: {
+    height: '95%',
+    minHeight: '95%',
     overflow: 'auto',
   },
   channelListItem: {
@@ -32,6 +37,9 @@ const styles = theme => ({
   channelCardContent: {
     paddingTop: '0px',
     paddingBottom: '0px',
+    '&:lastChild': {
+      paddingBottom: '0px',
+    }
   }
 });
 
@@ -60,7 +68,7 @@ class Channel extends React.Component {
 
     return (
       <div className={this.props.classes.allScroll}>
-        <List className={this.props.classes.allScroll}>
+        <List className={this.props.classes.scroll}>
           {talks}
         </List>
       </div>
