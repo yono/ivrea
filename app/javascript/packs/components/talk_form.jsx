@@ -36,6 +36,7 @@ class TalkForm extends React.Component {
                 id="SendButton"
                 value={this.state.formValue}
                 onChange={(e) => this.handleInput(e)}
+                placeholder={"Message"}
               />
             </Grid>
             <Grid item xs={2}>
