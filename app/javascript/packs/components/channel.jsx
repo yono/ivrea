@@ -46,6 +46,8 @@ const styles = theme => ({
     marginBottom: '20px',
     fontWeight: 'bold',
     fontSize: '20px',
+    paddingLeft: '30px',
+    borderBottom: 'thin solid #ddd',
   }
 });
 
