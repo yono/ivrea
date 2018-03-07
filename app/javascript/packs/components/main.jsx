@@ -111,6 +111,14 @@ class Main extends React.Component {
     App.sample.post(i, _talk, userName)
   }
 
+  handleLogout() {
+    axios.delete('/sessions.json').then((response) => {
+      window.location.reload()
+    }).catch((response) => {
+      console.log(response)
+    })
+  }
+
   render() {
     return (
       <div className={this.props.classes.all}>
@@ -127,6 +135,7 @@ class Main extends React.Component {
               talks={this.state.talks}
               className={this.props.classes.allScroll}
               selectedChannelName={this.state.selectedChannelName}
+              handleLogout={() => this.handleLogout()}
             />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Grid from 'material-ui/Grid';
-import Header from './components/header'
 import Main from './components/main'
 import { withStyles } from 'material-ui/styles';
 

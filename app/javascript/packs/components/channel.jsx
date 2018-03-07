@@ -3,6 +3,7 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
   user: {
@@ -48,6 +49,14 @@ const styles = theme => ({
     fontSize: '20px',
     paddingLeft: '30px',
     borderBottom: 'thin solid #ddd',
+  },
+  logout: {
+    float: 'right',
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    marginTop: '0px',
+    marginBottom: '0px',
+    fontSize: '12px',
   }
 });
 
@@ -77,7 +86,10 @@ class Channel extends React.Component {
 
     return (
       <div className={this.props.classes.allScroll}>
-        <Typography className={this.props.classes.channelHeader}>{'#' + selectedChannelName}</Typography>
+        <Typography className={this.props.classes.channelHeader}>
+          {'#' + selectedChannelName}
+          <Button className={this.props.classes.logout} onClick={() => this.props.handleLogout()}>Logout</Button>
+        </Typography>
         <List className={this.props.classes.scroll}>
           {talks}
         </List>
