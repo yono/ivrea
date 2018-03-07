@@ -30,6 +30,7 @@ class Main extends React.Component {
     this.state = {
       channels: [],
       selectedChannelId: 0,
+      selectedChannelName: "",
       talks: [],
       userName: "",
       formValue: "",
@@ -41,6 +42,7 @@ class Main extends React.Component {
     axios.get('/channels.json').then((response) => {
       const channels = response.data
       const selectedChannelId = channels[0].id
+      const selectedChannelName = channels[0].name
       axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
         const talks = response.data
         axios.get("/sessions.json").then((response) => {
@@ -48,6 +50,7 @@ class Main extends React.Component {
           this.setState({talks: talks,
                          channels: channels,
                          selectedChannelId: selectedChannelId,
+                         selectedChannelName: selectedChannelName,
                          userName: userName})
         }).catch((response) => {
           console.log(response)
@@ -82,14 +85,16 @@ class Main extends React.Component {
     App.sample.received = App.sample.received.bind(this);
   }
 
-  handleClickChannel(i) {
+  handleClickChannel(i, name) {
     const selectedChannelId = i
+    const selectedChannelName = name
     axios.get('/channels.json').then((response) => {
       const channels = response.data
       axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
         this.setState({talks: response.data,
                        channels: channels,
-                       selectedChannelId: selectedChannelId})
+                       selectedChannelId: selectedChannelId,
+                       selectedChannelName: selectedChannelName})
       }).catch((response) => {
         console.log(response)
       })
@@ -114,16 +119,18 @@ class Main extends React.Component {
             <ChannelList
               channels={this.state.channels}
               selectedChannelId={this.state.selectedChannelId}
-              handleClickChannel={i => this.handleClickChannel(i)}
+              handleClickChannel={(i, name) => this.handleClickChannel(i, name)}
             />
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>
             <Channel
               talks={this.state.talks}
               className={this.props.classes.allScroll}
+              selectedChannelName={this.state.selectedChannelName}
             />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
+              selectedChannelName={this.state.selectedChannelName}
               handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
               userName={this.state.userName}
             />

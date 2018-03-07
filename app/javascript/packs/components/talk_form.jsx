@@ -32,6 +32,7 @@ class TalkForm extends React.Component {
 
   render() {
     const selectedChannelId = this.props.selectedChannelId
+    const selectedChannelName = this.props.selectedChannelName
     const userName = this.props.userName
     return (
       <div>
@@ -43,7 +44,7 @@ class TalkForm extends React.Component {
                 id="SendButton"
                 value={this.state.formValue}
                 onChange={(e) => this.handleInput(e)}
-                placeholder={"Message"}
+                placeholder={"Message #" + selectedChannelName}
                 className={this.props.classes.textField}
               />
             </Grid>

@@ -31,13 +31,13 @@ class ChannelList extends React.Component {
     const channelItems = this.props.channels.map(function (channel) {
         if (channel.id === selectedChannelId) {
           return (
-            <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id)}>
+            <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
               <ListItemText disableTypography={true} primary={"# " + channel.name}/>
             </ListItem>
           )
         } else {
           return (
-            <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id)}>
+            <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
               <ListItemText disableTypography={true} primary={"# " + channel.name}/>
             </ListItem>
           )

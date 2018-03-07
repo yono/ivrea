@@ -58,6 +58,7 @@ class Channel extends React.Component {
   }
 
   render() {
+    const selectedChannelName = this.props.selectedChannelName
     const talks = this.props.talks.map(function (talk) {
         return (
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
@@ -76,7 +77,7 @@ class Channel extends React.Component {
 
     return (
       <div className={this.props.classes.allScroll}>
-        <Typography className={this.props.classes.channelHeader}>hoge</Typography>
+        <Typography className={this.props.classes.channelHeader}>{'#' + selectedChannelName}</Typography>
         <List className={this.props.classes.scroll}>
           {talks}
         </List>
