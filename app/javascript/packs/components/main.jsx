@@ -20,7 +20,6 @@ const styles = {
   allScroll: {
     height: '100%',
     minHeight: '100%',
-    overflow: 'auto',
   }
 };
 

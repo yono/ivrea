@@ -23,8 +23,8 @@ const styles = theme => ({
     overflow: 'auto',
   },
   scroll: {
-    height: '95%',
-    minHeight: '95%',
+    height: '85%',
+    minHeight: '85%',
     overflow: 'auto',
   },
   channelListItem: {
@@ -40,6 +40,12 @@ const styles = theme => ({
     '&:lastChild': {
       paddingBottom: '0px',
     }
+  },
+  channelHeader: {
+    marginTop: '20px',
+    marginBottom: '20px',
+    fontWeight: 'bold',
+    fontSize: '20px',
   }
 });
 
@@ -68,6 +74,7 @@ class Channel extends React.Component {
 
     return (
       <div className={this.props.classes.allScroll}>
+        <Typography className={this.props.classes.channelHeader}>hoge</Typography>
         <List className={this.props.classes.scroll}>
           {talks}
         </List>
