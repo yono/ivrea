@@ -13,20 +13,21 @@ const styles = {
 class TalkForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
+    /*this.state = {
       formValue: ""
-    }
+    }*/
   }
 
   handleInput(event) {
     const enter = 13
     if (event.keyCode != enter) {
-      this.setState({formValue: event.target.value})
+      //this.setState({formValue: event.target.value})
+      this.props.setFormValue(event.target.value)
     }
   }
 
   handleSendTalk(e, selectedChannelId, message, userName) {
-    this.setState({formValue: ""})
+    //this.setState({formValue: ""})
     this.props.handleSendTalk(e, selectedChannelId, message, userName)
   }
 
@@ -42,7 +43,7 @@ class TalkForm extends React.Component {
               <TextField
                 fullWidth={true}
                 id="SendButton"
-                value={this.state.formValue}
+                value={this.props.formValue}
                 onChange={(e) => this.handleInput(e)}
                 placeholder={"Message #" + selectedChannelName}
                 className={this.props.classes.textField}

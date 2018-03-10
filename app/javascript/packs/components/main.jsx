@@ -27,19 +27,19 @@ class Main extends React.Component {
   constructor(props) {
     super(props)
     axios.defaults.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name=csrf-token]').getAttribute('content')
-    this.state = {
+    /*this.state = {
       channels: [],
       selectedChannelId: 0,
       selectedChannelName: "",
       talks: [],
       userName: "",
       formValue: "",
-    }
+    }*/
   }
 
   componentDidMount() {
     this.subscriptChannel();
-    axios.get('/channels.json').then((response) => {
+    /*axios.get('/channels.json').then((response) => {
       const channels = response.data
       const selectedChannelId = channels[0].id
       const selectedChannelName = channels[0].name
@@ -60,7 +60,7 @@ class Main extends React.Component {
       })
     }).catch((response) => {
       console.log(response)
-    })
+    })*/
   }
 
   subscriptChannel() {
@@ -71,9 +71,9 @@ class Main extends React.Component {
         },
         received(data) {
           const talk = data
-          if (talk.channel_id === this.state.selectedChannelId) {
+          /*if (talk.channel_id === this.state.selectedChannelId) {
             this.setState({talks: this.state.talks.concat([talk])})
-          }
+          }*/
         },
         post(channelId, message, userName) {
           this.perform('post', {channel_id: channelId,
@@ -88,7 +88,8 @@ class Main extends React.Component {
   handleClickChannel(i, name) {
     const selectedChannelId = i
     const selectedChannelName = name
-    axios.get('/channels.json').then((response) => {
+    this.props.setCurrentChannel(i, name)
+    /*axios.get('/channels.json').then((response) => {
       const channels = response.data
       axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
         this.setState({talks: response.data,
@@ -100,7 +101,7 @@ class Main extends React.Component {
       })
     }).catch((response) => {
       console.log(response)
-    })
+    })*/
   }
 
   handleSendTalk(e, i, _talk, userName) {
@@ -108,40 +109,43 @@ class Main extends React.Component {
     if (_talk === "") {
       return
     }
-    App.sample.post(i, _talk, userName)
+    //App.sample.post(i, _talk, userName)
   }
 
   handleLogout() {
-    axios.delete('/sessions.json').then((response) => {
+    /*axios.delete('/sessions.json').then((response) => {
       window.location.reload()
     }).catch((response) => {
       console.log(response)
-    })
+    })*/
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className={this.props.classes.all}>
         <Grid container className={this.props.classes.all}>
           <Grid item xs={3} className={this.props.classes.sideBar}>
             <ChannelList
-              channels={this.state.channels}
-              selectedChannelId={this.state.selectedChannelId}
+              channels={this.props.channels}
+              selectedChannelId={this.props.selectedChannelId}
               handleClickChannel={(i, name) => this.handleClickChannel(i, name)}
             />
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>
             <Channel
-              talks={this.state.talks}
+              talks={this.props.talks}
               className={this.props.classes.allScroll}
-              selectedChannelName={this.state.selectedChannelName}
+              selectedChannelName={this.props.selectedChannelName}
               handleLogout={() => this.handleLogout()}
             />
             <TalkForm
-              selectedChannelId={this.state.selectedChannelId}
-              selectedChannelName={this.state.selectedChannelName}
+              selectedChannelId={this.props.selectedChannelId}
+              selectedChannelName={this.props.selectedChannelName}
               handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
-              userName={this.state.userName}
+              userName={this.props.userName}
+              formValue={this.props.formValue}
+              setFormValue={(e) => this.props.setFormValue(e)}
             />
           </Grid>
         </Grid>
