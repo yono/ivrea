@@ -63,7 +63,9 @@ const styles = theme => ({
 class Channel extends React.Component {
 
   componentDidUpdate() {
-    document.getElementById('note-' + this.props.talks[this.props.talks.length - 1].id).scrollIntoView()
+    if (this.props.talks.length > 0) {
+      document.getElementById('note-' + this.props.talks[this.props.talks.length - 1].id).scrollIntoView()
+    }
   }
 
   render() {

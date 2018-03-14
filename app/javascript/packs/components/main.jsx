@@ -111,6 +111,15 @@ class Main extends React.Component {
     App.sample.post(i, _talk, userName)
   }
 
+  handleCreateChannel(channelName) {
+    const name = channelName
+    axios.post('/channels.json', {channel: {name: name}}).then((response) => {
+      return
+    }).catch((response) => {
+      console.log(reponse)
+    })
+  }
+
   handleLogout() {
     axios.delete('/sessions.json').then((response) => {
       window.location.reload()
@@ -128,6 +137,7 @@ class Main extends React.Component {
               channels={this.state.channels}
               selectedChannelId={this.state.selectedChannelId}
               handleClickChannel={(i, name) => this.handleClickChannel(i, name)}
+              handleCreateChannel={(name) => this.handleCreateChannel(name)}
             />
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>
