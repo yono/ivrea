@@ -39,6 +39,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.subscriptChannel();
+    this.subscriptChannelList();
     axios.get('/channels.json').then((response) => {
       const channels = response.data
       const selectedChannelId = channels[0].id
@@ -83,6 +84,20 @@ class Main extends React.Component {
       }
     );
     App.sample.received = App.sample.received.bind(this);
+  }
+
+  subscriptChannelList() {
+    App.channelList = App.cable.subscriptions.create("ChannelChannel", {
+      connected() {
+      },
+      disconnected() {
+      },
+      received(data) {
+        const channel = data
+        this.setState({channels: this.state.channels.concat([channel])})
+      }
+    });
+    App.channelList.received = App.channelList.received.bind(this);
   }
 
   handleClickChannel(i, name) {
