@@ -135,14 +135,12 @@ class Main extends React.Component {
               talks={this.state.talks}
               className={this.props.classes.allScroll}
               selectedChannelName={this.state.selectedChannelName}
-              handleLogout={() => this.handleLogout()}
-            />
+              handleLogout={() => this.handleLogout()} />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               selectedChannelName={this.state.selectedChannelName}
               handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
-              userName={this.state.userName}
-            />
+              userName={this.state.userName} />
           </Grid>
         </Grid>
       </div>
