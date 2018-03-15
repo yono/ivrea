@@ -5,16 +5,19 @@ import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import Icon from 'material-ui/Icon';
+import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
 const styles = {
   channelHeader: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#fff',
+    paddingTop: '20px',
+    paddingBottom: '20px',
   },
   selectedChannel: {
     color: '#fff',
@@ -31,8 +34,8 @@ const styles = {
     float: 'right',
     backgroundColor: '#4d394b',
     color: '#fff',
-    borderColor: '#fff',
     boxShadow: 'none',
+    verticalAlign: 'middle',
     '&:active': {
       boxShadow: 'none',
     },
@@ -112,13 +115,12 @@ class ChannelList extends React.Component {
         </DialogActions>
       </Dialog>
         <List className={this.props.classes.all}
-          subheader={<ListSubheader component="div" className={this.props.classes.channelHeader}>
-          Channels
-          <Button
-            variant="fab"
+          subheader={<ListSubheader component="div">
+          <Typography className={this.props.classes.channelHeader} >Channels
+          <Icon
             className={this.props.classes.addChannel}
-            onClick={(e) => this.handleClickOpen(e)}
-            aria-label="add">+</Button>
+            onClick={(e) => this.handleClickOpen(e)}>add_circle</Icon>
+          </Typography>
           </ListSubheader>}
         >
           {channelItems}
