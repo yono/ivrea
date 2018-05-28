@@ -108,16 +108,10 @@ class Main extends React.Component {
   handleClickChannel(i, name) {
     const selectedChannelId = i
     const selectedChannelName = name
-    axios.get('/channels.json').then((response) => {
-      const channels = response.data
-      axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
-        this.setState({talks: response.data,
-                       channels: channels,
-                       selectedChannelId: selectedChannelId,
-                       selectedChannelName: selectedChannelName})
-      }).catch((response) => {
-        console.log(response)
-      })
+    axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
+      this.setState({talks: response.data,
+                     selectedChannelId: selectedChannelId,
+                     selectedChannelName: selectedChannelName})
     }).catch((response) => {
       console.log(response)
     })
