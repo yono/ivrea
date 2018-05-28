@@ -11,3 +11,12 @@ general_channel.talks.create!(note: 'Hello!', user_name: 'Test User') if general
 
 random_channel = Channel.find_or_create_by!(name: 'Random')
 random_channel.talks.create!(note: 'How do you?', user_name: 'Test User') if random_channel.talks.count.zero?
+
+unless User.find_by(email: 'test@example.com')
+  User.create!(
+    name: 'test',
+    email: 'test@example.com',
+    password: 'password',
+    password_confirmation: 'password'
+  )
+end
