@@ -19,9 +19,15 @@ function Login() {
           </Typography>
           <form action='/sessions' method='post' style={{margin: 'auto'}}>
             <TextField
-              id='session_user'
-              name='session[user]'
-              placeholder='User Name'
+              id='session_email'
+              name='session[email]'
+              placeholder='Email'
+            />
+            <TextField
+              type='password'
+              id='session_password'
+              name='session[password]'
+              placeholder='Password'
             />
             <input type='hidden' name='authenticity_token' value={token} />
             <Button variant='raised' color='primary' type='submit'>
