@@ -2,8 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :require_user, only: %i(new create)
 
   def show
-    user = User.find(session[:user_id])
-    render json: user.name
+    render json: current_user.name
   end
 
   def new
@@ -21,6 +20,7 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
+    current_user = nil
     head :ok
   end
 end
