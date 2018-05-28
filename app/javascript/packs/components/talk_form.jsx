@@ -25,18 +25,18 @@ class TalkForm extends React.Component {
     }
   }
 
-  handleSendTalk(e, selectedChannelId, message, userName) {
+  handleSendTalk(e, selectedChannelId, message, userId) {
     this.setState({formValue: ""})
-    this.props.handleSendTalk(e, selectedChannelId, message, userName)
+    this.props.handleSendTalk(e, selectedChannelId, message, userId)
   }
 
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const selectedChannelName = this.props.selectedChannelName
-    const userName = this.props.userName
+    const userId = this.props.userId
     return (
       <div>
-        <form onSubmit={(e) => this.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userName)}>
+        <form onSubmit={(e) => this.handleSendTalk(e, selectedChannelId, document.querySelector("#SendButton").value, userId)}>
           <Grid container>
             <Grid item xs={10}>
               <TextField

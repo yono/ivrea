@@ -2,8 +2,8 @@ class TalksController < ApplicationController
   def index
     raise unless params[:channel_id]
     channel = Channel.find params[:channel_id]
-    @talks = channel.talks
-    render json: @talks
+    @talks = channel.talks.includes(:user)
+    render json: @talks.to_json(methods: :user_name)
   end
 
   private

@@ -32,6 +32,7 @@ class Main extends React.Component {
       selectedChannelId: 0,
       selectedChannelName: "",
       talks: [],
+      userId: 0,
       userName: "",
       formValue: "",
     }
@@ -47,11 +48,15 @@ class Main extends React.Component {
       axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
         const talks = response.data
         axios.get("/sessions.json").then((response) => {
-          const userName = response.data
+          const user = response.data
+          const userId = user.id
+          console.log(userId)
+          const userName = user.name
           this.setState({talks: talks,
                          channels: channels,
                          selectedChannelId: selectedChannelId,
                          selectedChannelName: selectedChannelName,
+                         userId: userId,
                          userName: userName})
         }).catch((response) => {
           console.log(response)
@@ -76,10 +81,10 @@ class Main extends React.Component {
             this.setState({talks: this.state.talks.concat([talk])})
           }
         },
-        post(channelId, message, userName) {
+        post(channelId, message, userId) {
           this.perform('post', {channel_id: channelId,
                                 message: message,
-                                user_name: userName});
+                                user_id: userId});
         }
       }
     );
@@ -118,12 +123,12 @@ class Main extends React.Component {
     })
   }
 
-  handleSendTalk(e, i, _talk, userName) {
+  handleSendTalk(e, i, _talk, userId) {
     e.preventDefault()
     if (_talk === "") {
       return
     }
-    App.sample.post(i, _talk, userName)
+    App.sample.post(i, _talk, userId)
   }
 
   handleCreateChannel(channelName) {
@@ -164,8 +169,8 @@ class Main extends React.Component {
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               selectedChannelName={this.state.selectedChannelName}
-              handleSendTalk={(e, i, _talk, userName) => this.handleSendTalk(e, i, _talk, userName)}
-              userName={this.state.userName} />
+              handleSendTalk={(e, i, _talk, userId) => this.handleSendTalk(e, i, _talk, userId)}
+              userId={this.state.userId} />
           </Grid>
         </Grid>
       </div>
