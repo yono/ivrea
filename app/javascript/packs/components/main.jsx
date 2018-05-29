@@ -28,10 +28,9 @@ class Main extends React.Component {
     super(props)
     axios.defaults.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name=csrf-token]').getAttribute('content')
     this.state = {
-      channels: [],
+      channels: [{id: 0, name: '', talks: []}],
       selectedChannelId: 0,
       selectedChannelName: "",
-      talks: [],
       userId: 0,
       userName: "",
       formValue: "",
@@ -45,19 +44,24 @@ class Main extends React.Component {
       const channels = response.data
       const selectedChannelId = channels[0].id
       const selectedChannelName = channels[0].name
-      axios.get("/channels/" + selectedChannelId + "/talks.json").then((response) => {
+      axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
         const talks = response.data
         axios.get("/sessions.json").then((response) => {
           const user = response.data
           const userId = user.id
-          console.log(userId)
           const userName = user.name
-          this.setState({talks: talks,
-                         channels: channels,
-                         selectedChannelId: selectedChannelId,
-                         selectedChannelName: selectedChannelName,
-                         userId: userId,
-                         userName: userName})
+          this.setState({
+            channels: channels.map(function (channel) {
+              if (channel.id === selectedChannelId) {
+                return {id: channel.id, name: channel.name, talks: talks};
+              } else {
+                return {id: channel.id, name: channel.name, talks: []};
+              }
+            }),
+            selectedChannelId: selectedChannelId,
+            selectedChannelName: selectedChannelName,
+            userId: userId,
+            userName: userName})
         }).catch((response) => {
           console.log(response)
         })
@@ -78,7 +82,12 @@ class Main extends React.Component {
         received(data) {
           const talk = data
           if (talk.channel_id === this.state.selectedChannelId) {
-            this.setState({talks: this.state.talks.concat([talk])})
+            const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
+            const targetChannel = this.state.channels[targetChannelIndex];
+            const channel = {id: this.state.selectedChannelId, name: this.state.selectedChannelName, talks: targetChannel.talks.concat([talk])};
+            var _channels = this.state.channels.slice();
+            _channels.splice(targetChannelIndex, 1, channel);
+            this.setState({channels: _channels});
           }
         },
         post(channelId, message, userId) {
@@ -99,7 +108,7 @@ class Main extends React.Component {
       },
       received(data) {
         const channel = data
-        this.setState({channels: this.state.channels.concat([channel])})
+        this.setState({channels: this.state.channels.concat([{id: channel.id, name: channel.name, talks: []}])})
       }
     });
     App.channelList.received = App.channelList.received.bind(this);
@@ -143,6 +152,8 @@ class Main extends React.Component {
   }
 
   render() {
+    const channel = this.state.channels.find(function(o) { return o.id === this.state.selectedChannelId }.bind(this))
+    const talks = channel.talks
     return (
       <div className={this.props.classes.all}>
         <Grid container className={this.props.classes.all}>
@@ -156,7 +167,7 @@ class Main extends React.Component {
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>
             <Channel
-              talks={this.state.talks}
+              talks={talks}
               className={this.props.classes.allScroll}
               selectedChannelName={this.state.selectedChannelName}
               handleLogout={() => this.handleLogout()} />
