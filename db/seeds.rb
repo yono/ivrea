@@ -13,10 +13,15 @@ random_channel = Channel.find_or_create_by!(name: 'Random')
 random_channel.talks.create!(note: 'How do you?', user_name: 'Test User') if random_channel.talks.count.zero?
 
 unless User.find_by(email: 'test@example.com')
-  User.create!(
+  user = User.create!(
     name: 'test',
     email: 'test@example.com',
     password: 'password',
     password_confirmation: 'password'
+  )
+  user.icon.attach(
+    io: File.open(Rails.root.join('db', 'icon_seed.jpg')),
+    filename: 'icon_seed.jpg',
+    content_type: 'image/jpeg'
   )
 end

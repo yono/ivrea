@@ -4,4 +4,5 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :talks
+  has_one_attached :icon
 end
