@@ -114,16 +114,51 @@ class Main extends React.Component {
     App.channelList.received = App.channelList.received.bind(this);
   }
 
+  // FIXME ロジックが煩雑なのでリファクタしたい
   handleClickChannel(i, name) {
     const selectedChannelId = i
     const selectedChannelName = name
-    axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
-      this.setState({talks: response.data,
-                     selectedChannelId: selectedChannelId,
-                     selectedChannelName: selectedChannelName})
-    }).catch((response) => {
-      console.log(response)
-    })
+    const selectedChannelTalks = this.state.channels.find(function(o) {return o.id === selectedChannelId}.bind(this)).talks
+    if (selectedChannelTalks.length > 0) {
+      const selectedChannelLastTalkId = selectedChannelTalks[selectedChannelTalks.length - 1].id;
+      axios.get(`/channels/${selectedChannelId}/talks.json?after=${selectedChannelLastTalkId}`).then((response) => {
+        const newTalks = response.data;
+        if (newTalks.length === 0) {
+          this.setState({selectedChannelId: selectedChannelId,
+                         selectedChannelName: selectedChannelName})
+        } else {
+          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
+          const targetChannel = this.state.channels[targetChannelIndex];
+          const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat([newTalks])};
+          var _channels = this.state.channels.slice();
+          _channels.splice(targetChannelIndex, 1, channel);
+          this.setState({channels: _channels,
+                         selectedChannelId: selectedChannelId,
+                         selectedChannelName: selectedChannelName})
+        }
+      }).catch((response) => {
+        console.log(response)
+      })
+    } else {
+      axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
+        const newTalks = response.data;
+        if (newTalks.length === 0) {
+          this.setState({selectedChannelId: selectedChannelId,
+                         selectedChannelName: selectedChannelName})
+        } else {
+          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
+          const targetChannel = this.state.channels[targetChannelIndex];
+          const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat(newTalks)};
+          var _channels = this.state.channels.slice();
+          _channels.splice(targetChannelIndex, 1, channel);
+          this.setState({channels: _channels,
+                         selectedChannelId: selectedChannelId,
+                         selectedChannelName: selectedChannelName})
+        }
+      }).catch((response) => {
+        console.log(response)
+      })
+    }
   }
 
   handleSendTalk(e, i, _talk, userId) {
