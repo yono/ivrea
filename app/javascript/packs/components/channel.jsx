@@ -59,7 +59,11 @@ const styles = theme => ({
     marginTop: '0px',
     marginBottom: '0px',
     fontSize: '12px',
-  }
+  },
+  profile: {
+    float: 'right',
+    fontSize: '12px',
+  },
 });
 
 class Channel extends React.Component {
@@ -98,6 +102,9 @@ class Channel extends React.Component {
         <Typography className={this.props.classes.channelHeader}>
           {'#' + selectedChannelName}
           <Button className={this.props.classes.logout} onClick={() => this.props.handleLogout()}>Logout</Button>
+          <Button className={this.props.classes.profile}>
+            <a href="/profiles">Profile</a>
+          </Button>
         </Typography>
         <List className={this.props.classes.scroll}>
           {talks}
