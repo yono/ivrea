@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :require_user, only: %i(new create)
 
   def show
-    render json: current_user.slice(:id, :name)
+    @user = current_user
   end
 
   def new

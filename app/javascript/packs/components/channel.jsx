@@ -1,9 +1,11 @@
 import React from 'react';
+import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Avatar from 'material-ui/Avatar';
 
 const styles = theme => ({
   user: {
@@ -75,10 +77,19 @@ class Channel extends React.Component {
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card className={this.props.classes.channelCard}>
               <CardContent className={this.props.classes.channelCardContent}>
-                <Typography className={this.props.classes.user}>{talk.user_name + ' ' + talk.created_at}</Typography>
-                <Typography>
-                  {talk.note}
-                </Typography>
+                <Grid container>
+                  <Grid item xs={2}>
+                    <Avatar src={this.props.userIconUrl}/>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <Typography className={this.props.classes.user}>
+                    {talk.user_name + ' ' + talk.created_at}
+                    </Typography>
+                    <Typography>
+                      {talk.note}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </CardContent>
             </Card>
           </ListItem>
