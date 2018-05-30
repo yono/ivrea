@@ -6,11 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-general_channel = Channel.find_or_create_by!(name: 'General')
-general_channel.talks.create!(note: 'Hello!', user_name: 'Test User') if general_channel.talks.count.zero?
-
-random_channel = Channel.find_or_create_by!(name: 'Random')
-random_channel.talks.create!(note: 'How do you?', user_name: 'Test User') if random_channel.talks.count.zero?
+Channel.find_or_create_by!(name: 'General')
+Channel.find_or_create_by!(name: 'Random')
 
 unless User.find_by(email: 'test@example.com')
   user = User.create!(
