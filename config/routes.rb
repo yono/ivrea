@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     resources :talks, only: %i(index create)
   end
   resource :sessions, only: %i(show new create destroy)
+  resource :profiles, only: %i(show edit update)
 end

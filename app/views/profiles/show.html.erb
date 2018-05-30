@@ -1,0 +1,9 @@
+<h1>プロフィール</h1>
+<dl>
+  <dt>ユーザー名</dt>
+  <dd><%= @user.name %></dd>
+  <dt>メールアドレス</dt>
+  <dd><%= @user.email %></dd>
+
+  <%= link_to '編集', edit_profiles_path(@user) %>
+</dl>
