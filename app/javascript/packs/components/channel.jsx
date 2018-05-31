@@ -84,9 +84,10 @@ class Channel extends React.Component {
                 <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px'}}/>
                 <div style={{float: 'left', paddingBottom: '16px'}}>
                   <Typography className={this.props.classes.user}>
-                  {talk.user_name + ' ' + talk.created_at}
+                    <span style={{fontWeight: 'bold'}}>{talk.user_name}</span>
+                    {` ${talk.created_at}`}
                   </Typography>
-                  <Typography>
+                  <Typography style={{fontSize: '16px'}}>
                     {talk.note}
                   </Typography>
                 </div>
