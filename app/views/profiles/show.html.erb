@@ -1,0 +1,12 @@
+<a href="/"> ← TOPへ戻る </a>
+
+<h1>プロフィール</h1>
+<img src="<%= icon_url(@user) %>" style="max-width: 60px; max-height: 60px;"/>
+<dl>
+  <dt>ユーザー名</dt>
+  <dd><%= @user.name %></dd>
+  <dt>メールアドレス</dt>
+  <dd><%= @user.email %></dd>
+
+  <%= link_to '編集', edit_profiles_path(@user) %>
+</dl>

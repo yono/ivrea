@@ -1,9 +1,11 @@
 import React from 'react';
+import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Avatar from 'material-ui/Avatar';
 
 const styles = theme => ({
   user: {
@@ -57,7 +59,11 @@ const styles = theme => ({
     marginTop: '0px',
     marginBottom: '0px',
     fontSize: '12px',
-  }
+  },
+  profile: {
+    float: 'right',
+    fontSize: '12px',
+  },
 });
 
 class Channel extends React.Component {
@@ -75,10 +81,15 @@ class Channel extends React.Component {
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card className={this.props.classes.channelCard}>
               <CardContent className={this.props.classes.channelCardContent}>
-                <Typography className={this.props.classes.user}>{talk.user_name + ' ' + talk.created_at}</Typography>
-                <Typography>
-                  {talk.note}
-                </Typography>
+                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px'}}/>
+                <div style={{float: 'left', paddingBottom: '16px'}}>
+                  <Typography className={this.props.classes.user}>
+                  {talk.user_name + ' ' + talk.created_at}
+                  </Typography>
+                  <Typography>
+                    {talk.note}
+                  </Typography>
+                </div>
               </CardContent>
             </Card>
           </ListItem>
@@ -91,6 +102,9 @@ class Channel extends React.Component {
         <Typography className={this.props.classes.channelHeader}>
           {'#' + selectedChannelName}
           <Button className={this.props.classes.logout} onClick={() => this.props.handleLogout()}>Logout</Button>
+          <Button className={this.props.classes.profile}>
+            <a href="/profiles">Profile</a>
+          </Button>
         </Typography>
         <List className={this.props.classes.scroll}>
           {talks}
