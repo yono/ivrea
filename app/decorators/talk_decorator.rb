@@ -4,7 +4,7 @@ class TalkDecorator < Draper::Decorator
   delegate_all
 
   def user_icon_url
-    if user
+    if user.icon.attached?
       url_for(user.icon)
     else
       asset_path("icon_seed.jpg")

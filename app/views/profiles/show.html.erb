@@ -1,7 +1,7 @@
 <a href="/"> ← TOPへ戻る </a>
 
 <h1>プロフィール</h1>
-<img src="<%= url_for(@user.icon) %>" style="max-width: 60px; max-height: 60px;"/>
+<img src="<%= icon_url(@user) %>" style="max-width: 60px; max-height: 60px;"/>
 <dl>
   <dt>ユーザー名</dt>
   <dd><%= @user.name %></dd>
