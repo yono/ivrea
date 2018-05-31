@@ -21,7 +21,7 @@ const styles = {
   },
   selectedChannel: {
     color: '#fff',
-    backgroundColor: '#4c9689',
+    backgroundColor: '#FF5917',
   },
   channel: {
     color: '#fff',
@@ -32,7 +32,7 @@ const styles = {
   },
   addChannel: {
     float: 'right',
-    backgroundColor: '#4d394b',
+    backgroundColor: '#2D2D2D',
     color: '#fff',
     boxShadow: 'none',
     verticalAlign: 'middle',
@@ -40,7 +40,7 @@ const styles = {
       boxShadow: 'none',
     },
     '&hover': {
-      backgroundColor: '#4d394b',
+      backgroundColor: '#2D2D2D',
       color: '#cac4c9',
     }
   }

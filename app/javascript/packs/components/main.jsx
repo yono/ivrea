@@ -9,7 +9,7 @@ import { withStyles } from 'material-ui/styles';
 const styles = {
   sideBar: {
     color: '#fff',
-    backgroundColor: '#4d394b',
+    backgroundColor: '#2D2D2D',
     height: '100%',
     minHeight: '100%',
   },
