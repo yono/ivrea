@@ -6,7 +6,7 @@
   </ul>
 <% end %>
 
-<%= form_with(model: @user, url: {action: 'update'}, method: :put, data: {remote: false}) do |form| %>
+<%= form_with(model: @user, url: {action: 'create'}, method: :post, data: {remote: false}) do |form| %>
   <dl>
     <dt>アイコン</dt>
     <dd><%= form.file_field :icon %></dd>
