@@ -81,7 +81,7 @@ class Channel extends React.Component {
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card className={this.props.classes.channelCard}>
               <CardContent className={this.props.classes.channelCardContent}>
-                <Avatar src={this.props.userIconUrl} style={{float: 'left'}}/>
+                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px'}}/>
                 <div style={{float: 'left', paddingBottom: '16px'}}>
                   <Typography className={this.props.classes.user}>
                   {talk.user_name + ' ' + talk.created_at}
