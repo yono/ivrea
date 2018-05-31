@@ -7,7 +7,6 @@ class TalksController < ApplicationController
       @talks = @talks.where("talks.id > ?", params[:after])
     end
     @talks = @talks.decorate
-    #render json: @talks.to_json(methods: :user_name)
   end
 
   private
