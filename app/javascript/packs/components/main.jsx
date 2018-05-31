@@ -33,7 +33,6 @@ class Main extends React.Component {
       selectedChannelName: "",
       userId: 0,
       userName: "",
-      userIconUrl: "",
       formValue: "",
     }
   }
@@ -51,7 +50,6 @@ class Main extends React.Component {
           const user = response.data
           const userId = user.id
           const userName = user.name
-          const userIconUrl = user.url
           this.setState({
             channels: channels.map(function (channel) {
               if (channel.id === selectedChannelId) {
@@ -63,8 +61,7 @@ class Main extends React.Component {
             selectedChannelId: selectedChannelId,
             selectedChannelName: selectedChannelName,
             userId: userId,
-            userName: userName,
-            userIconUrl: userIconUrl})
+            userName: userName})
         }).catch((response) => {
           console.log(response)
         })
@@ -208,8 +205,7 @@ class Main extends React.Component {
               talks={talks}
               className={this.props.classes.allScroll}
               selectedChannelName={this.state.selectedChannelName}
-              handleLogout={() => this.handleLogout()}
-              userIconUrl={this.state.userIconUrl}/>
+              handleLogout={() => this.handleLogout()}/>
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               selectedChannelName={this.state.selectedChannelName}
