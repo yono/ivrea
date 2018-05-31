@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   end
   resource :sessions, only: %i(show new create destroy)
   resource :profiles, only: %i(show edit update)
+  resource :registrations, only: %i(new create)
 end
