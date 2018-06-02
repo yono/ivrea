@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
+import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
   user: {
@@ -88,7 +89,7 @@ class Channel extends React.Component {
                     {` ${talk.created_at}`}
                   </Typography>
                   <Typography style={{fontSize: '16px'}}>
-                    {talk.note}
+                    <Emoji text={talk.note}/>
                   </Typography>
                 </div>
               </CardContent>
