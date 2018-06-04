@@ -1,3 +1,3 @@
-# Like a Slack
+# Ivrea
 
-This is just for author's exercise repository
+Chat application.
