@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   resource :sessions, only: %i(show new create destroy)
   resource :profiles, only: %i(show edit update)
   resource :registrations, only: %i(new create)
+  resources :password_resets, module: :user, param: :code do
+    get :completed, on: :collection
+  end
 end
