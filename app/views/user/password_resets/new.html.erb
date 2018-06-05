@@ -1,0 +1,9 @@
+<h1>パスワードリセット</h1>
+<%= form_with(model: User.new, url: {action: 'create'}, method: :post, data: {remote: false}) do |form| %>
+
+  <dl>
+    <dt>メールアドレス</dt>
+    <dd><%= form.text_field :email %></dd>
+    <dt><%= form.submit "送信する" %></dt>
+  </dl>
+<% end %>

@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_29_160659) do
+ActiveRecord::Schema.define(version: 2018_06_04_125107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -49,6 +50,13 @@ ActiveRecord::Schema.define(version: 2018_05_29_160659) do
     t.datetime "updated_at", null: false
     t.string "user_name"
     t.integer "user_id"
+  end
+
+  create_table "user_password_resets", force: :cascade do |t|
+    t.bigint "user_id"
+    t.uuid "code", default: -> { "uuid_generate_v4()" }, null: false
+    t.datetime "expired_at"
+    t.index ["code"], name: "index_user_password_resets_on_code", unique: true
   end
 
   create_table "users", force: :cascade do |t|
