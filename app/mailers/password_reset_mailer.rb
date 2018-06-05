@@ -1,5 +1,5 @@
 class PasswordResetMailer < ApplicationMailer
-  default from: 'admin@example.com'
+  default from: ENV.fetch('MAIL_SENDER', 'admin@example.com')
 
   def password_reset_link_email(user, password_reset)
     @user = user
