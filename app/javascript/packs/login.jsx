@@ -35,7 +35,8 @@ function Login() {
             </Button>
           </form>
           </Paper>
-          <a href="/registrations/new">ユーザー登録</a>
+          <p><a href="/registrations/new">ユーザー登録</a></p>
+          <p><a href="/password_resets/new">パスワードを忘れた場合</a></p>
         </Grid>
         <Grid item xs={4}></Grid>
       </Grid>

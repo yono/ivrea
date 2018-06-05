@@ -10,7 +10,7 @@ class User::PasswordResetsController < ApplicationController
     if @user
       @user.create_reset_password_link
       password_reset = @user.password_resets.first
-      PasswordResetMailer.password_reset_link_email(@user, password_reset).deliver_later
+      PasswordResetMailer.password_reset_link_email(@user, password_reset).deliver
       render :new
     else
       render :new, notice: 'hoge'
