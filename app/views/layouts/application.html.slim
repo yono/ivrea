@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Ivrea
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag    'application', "https://fonts.googleapis.com/icon?family=Material+Icons", media: 'all'
+    = javascript_include_tag 'application'
+  body
+    - if controller.controller_name == 'top'
+      = yield
+    - else
+      nav.navbar[style="background-color: #2D2D2D; color: #2D2D2D;"]
+        = link_to root_path, class: 'navbar-brand', style: 'color: #2D2D2D;' do
+          = image_tag 'logo.png', style: 'width: 100px;'
+      .container.mt-3
+        = yield

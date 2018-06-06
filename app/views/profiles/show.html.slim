@@ -1,0 +1,8 @@
+h1 プロフィール
+= image_tag icon_url(@user), style: 'max-width: 60px; max-height: 60px;'
+dl
+  dt ユーザー名
+  dd = @user.name
+  dt メールアドレス
+  dd = @user.email
+  = link_to '編集', edit_profiles_path(@user)
