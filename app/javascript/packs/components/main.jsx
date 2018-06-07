@@ -5,6 +5,7 @@ import ChannelList from './channel_list'
 import Channel from './channel'
 import TalkForm from './talk_form'
 import { withStyles } from 'material-ui/styles';
+import NotificationSystem from 'react-notification-system';
 
 const styles = {
   sideBar: {
@@ -34,7 +35,22 @@ class Main extends React.Component {
       userId: 0,
       userName: "",
       formValue: "",
+      _notificationSystem: null,
     }
+    this._addNotification = this._addNotification.bind(this);
+    this.callbackFunc = this.callbackFunc.bind(this)
+  }
+
+  callbackFunc(channel) {
+    this.handleClickChannel(channel.id, channel.name);
+  }
+
+  _addNotification(channel, talk) {
+    this.state._notificationSystem.addNotification({
+      title: `#${channel.name}`,
+      message: `${talk.user_name}: ${talk.note}`,
+      level: "success",
+    })
   }
 
   componentDidMount() {
@@ -61,7 +77,8 @@ class Main extends React.Component {
             selectedChannelId: selectedChannelId,
             selectedChannelName: selectedChannelName,
             userId: userId,
-            userName: userName})
+            userName: userName,
+            _notificationSystem: this.refs.notificationSystem,})
         }).catch((response) => {
           console.log(response)
         })
@@ -88,6 +105,12 @@ class Main extends React.Component {
             var _channels = this.state.channels.slice();
             _channels.splice(targetChannelIndex, 1, channel);
             this.setState({channels: _channels});
+          } else {
+            if (talk.note.indexOf(`@${this.state.userName}`) != -1) {
+              const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
+              const targetChannel = this.state.channels[targetChannelIndex];
+              this._addNotification(targetChannel, talk);
+            }
           }
         },
         post(channelId, message, userId) {
@@ -213,6 +236,7 @@ class Main extends React.Component {
               userId={this.state.userId} />
           </Grid>
         </Grid>
+        <NotificationSystem ref="notificationSystem" />
       </div>
     )
   }
