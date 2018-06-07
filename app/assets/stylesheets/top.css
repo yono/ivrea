@@ -1,0 +1,9 @@
+html.top, body.top {
+  height: 100%;
+  min-height: 100%;
+}
+
+.root {
+  height: 100%;
+  min-height: 100%;
+}
