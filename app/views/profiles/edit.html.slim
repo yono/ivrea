@@ -1,0 +1,17 @@
+- if @user.errors.any?
+  ul
+    - @user.errors.full_messages.each do |message|
+      li = message
+= form_with(model: @user, url: {action: 'update'}, method: :put, data: {remote: false}) do |form|
+  dl
+    dt アイコン
+    dd = form.file_field :icon
+    dt ユーザー名
+    dd = form.text_field :name
+    dt メールアドレス
+    dd = form.text_field :email
+    dt パスワード
+    dd = form.password_field :password
+    dt パスワード（確認）
+    dd = form.password_field :password_confirmation
+    dt = form.submit "登録する"

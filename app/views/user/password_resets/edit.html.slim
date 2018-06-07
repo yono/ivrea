@@ -1,0 +1,8 @@
+h1 パスワードリセット
+= form_with(model: User.new, url: {action: 'update'}, method: :patch, data: {remote: false}) do |form|
+  dl
+    dt パスワード
+    dd = form.password_field :password
+    dt パスワード（確認）
+    dd = form.password_field :password_confirmation
+    dt = form.submit "送信する"
