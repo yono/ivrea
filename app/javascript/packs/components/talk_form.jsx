@@ -19,11 +19,13 @@ const autoSuggestTheme = {
     width: '100%',
     height: '40px',
     paddingLeft: '10px',
+    marginLeft: '30px',
     border: '1px solid #aaa',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
+    fontSize: 14,
   },
   suggestionsContainer: {
     display: 'none'
@@ -34,11 +36,11 @@ const autoSuggestTheme = {
     width: 280,
     border: '1px solid #aaa',
     backgroundColor: '#fff',
-    fontWeight: 300,
-    fontSize: 16,
+    fontSize: 12,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
     zIndex: 2,
+    marginLeft: '30px',
   },
   suggestionsList: {
     margin: 0,

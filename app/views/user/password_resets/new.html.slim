@@ -1,7 +1,10 @@
-.jumbotoron
-  h1 パスワードリセット
-  = form_with(model: User.new, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
-    .form-group
-      label メールアドレス
-      = form.text_field :email, clsss: 'form-control'
-    = form.submit "送信する"
+.col-10.offset-1
+  .card
+    .card-header
+      .card-title パスワードリセット
+    .card-body
+      = form_with(model: User.new, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
+        .form-group
+          label.col-4 メールアドレス
+          = form.text_field :email
+        = form.submit "送信する", class: 'btn btn-primary float-right'

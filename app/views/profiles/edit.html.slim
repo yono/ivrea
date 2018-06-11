@@ -1,17 +1,27 @@
-- if @user.errors.any?
-  ul
-    - @user.errors.full_messages.each do |message|
-      li = message
-= form_with(model: @user, url: {action: 'update'}, method: :put, data: {remote: false}) do |form|
-  dl
-    dt アイコン
-    dd = form.file_field :icon
-    dt ユーザー名
-    dd = form.text_field :name
-    dt メールアドレス
-    dd = form.text_field :email
-    dt パスワード
-    dd = form.password_field :password
-    dt パスワード（確認）
-    dd = form.password_field :password_confirmation
-    dt = form.submit "登録する"
+.col-10.offset-1
+  .card
+    .card-header
+      .card-title プロフィール編集
+      - if @user.errors.any?
+        ul
+          - @user.errors.full_messages.each do |message|
+            li = message
+    .card-body
+      = form_with(model: @user, url: {action: 'update'}, method: :put, data: {remote: false}) do |form|
+        .form-group
+          label.col-4 アイコン
+          = form.file_field :icon
+        .form-group
+          label.col-4 ユーザー名
+          = form.text_field :name
+        .form-group
+          label.col-4 メールアドレス
+          = form.text_field :email
+        .form-group
+          label.col-4 パスワード
+          = form.password_field :password
+        .form-group
+          label.col-4 パスワード（確認）
+          = form.password_field :password_confirmation
+        .form-group
+          = form.submit "登録する", class: 'btn btn-primary float-right'
