@@ -1,14 +1,19 @@
-h1 ログイン
-= form_with(scope: :session, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
-  .form-group
-    label.col-2 メールアドレス
-    = form.text_field :email, clsss: 'form-control'
-  .form-group
-    label パスワード
-    = form.password_field :password, class: 'form-control'
-  .form-group
-    = form.submit "送信する", class: 'btn btn-primary'
-  .mt-3.row
-    ul
-      li = link_to "ユーザー登録", new_registrations_path
-      li = link_to "パスワードを忘れた場合", new_password_reset_path
+.col-8.offset-2
+  .card
+    .card-header
+      .card-title LOGIN
+    .card-body
+      = form_with(scope: :session, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
+        .form-group
+          = form.label :email, class: 'col-3'
+          = form.email_field :email
+        .form-group
+          = form.label :password, class: 'col-3'
+          = form.password_field :password
+        .form-group
+          = form.submit "送信する", class: 'btn btn-primary float-right'
+    .card-footer
+      .mt-3
+        ul
+          li = link_to "ユーザー登録", new_registrations_path
+          li = link_to "パスワードを忘れた場合", new_password_reset_path
