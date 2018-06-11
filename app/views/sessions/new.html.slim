@@ -1,14 +1,14 @@
-.col-8.offset-2
+.col-10.offset-1
   .card
     .card-header
       .card-title LOGIN
     .card-body
       = form_with(scope: :session, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
         .form-group
-          = form.label :email, class: 'col-3'
+          label.col-4 メールアドレス
           = form.email_field :email
         .form-group
-          = form.label :password, class: 'col-3'
+          label.col-4 パスワード
           = form.password_field :password
         .form-group
           = form.submit "送信する", class: 'btn btn-primary float-right'
