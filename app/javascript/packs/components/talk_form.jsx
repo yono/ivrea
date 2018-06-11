@@ -54,26 +54,11 @@ const autoSuggestTheme = {
   }
 }
 
-const getSuggestionValue = suggestion => suggestion.text;
+const getSuggestionValue = suggestion => suggestion;
 
 const renderSuggestion = suggestion => (
-  <span>{suggestion.text}</span>
+  <span>{suggestion}</span>
 );
-
-const suggessionsList = [
-  {
-    text: '@yono'
-  },
-  {
-    text: '@fuga'
-  },
-  {
-    text: '@test'
-  },
-  {
-    text: '@hoge'
-  },
-]
 
 class TalkForm extends React.Component {
   constructor(props) {
@@ -101,8 +86,8 @@ class TalkForm extends React.Component {
   }
 
   getSuggestions(value) {
-    const suggessions = suggessionsList.filter(function(item) {
-      return item.text.indexOf(value) == 0;
+    const suggessions = this.props.accounts.filter(function(item) {
+      return item.indexOf(value) == 0;
     })
     return suggessions;
   }

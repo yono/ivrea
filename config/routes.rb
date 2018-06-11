@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :password_resets, module: :user, param: :code do
     get :completed, on: :collection
   end
+  resources :accounts, only: :index
 end

@@ -36,6 +36,7 @@ class Main extends React.Component {
       userName: "",
       formValue: "",
       _notificationSystem: null,
+      accounts: [],
     }
     this._addNotification = this._addNotification.bind(this);
     this.callbackFunc = this.callbackFunc.bind(this)
@@ -66,19 +67,27 @@ class Main extends React.Component {
           const user = response.data
           const userId = user.id
           const userName = user.name
-          this.setState({
-            channels: channels.map(function (channel) {
-              if (channel.id === selectedChannelId) {
-                return {id: channel.id, name: channel.name, talks: talks};
-              } else {
-                return {id: channel.id, name: channel.name, talks: []};
-              }
-            }),
-            selectedChannelId: selectedChannelId,
-            selectedChannelName: selectedChannelName,
-            userId: userId,
-            userName: userName,
-            _notificationSystem: this.refs.notificationSystem,})
+          axios.get("/accounts.json").then((response) => {
+            const accounts = response.data
+            console.log(accounts)
+            this.setState({
+              channels: channels.map(function (channel) {
+                if (channel.id === selectedChannelId) {
+                  return {id: channel.id, name: channel.name, talks: talks};
+                } else {
+                  return {id: channel.id, name: channel.name, talks: []};
+                }
+              }),
+              selectedChannelId: selectedChannelId,
+              selectedChannelName: selectedChannelName,
+              userId: userId,
+              userName: userName,
+              _notificationSystem: this.refs.notificationSystem,
+              accounts: accounts,
+            })
+          }).catch((response) => {
+            console.log(response)
+          })
         }).catch((response) => {
           console.log(response)
         })
@@ -233,7 +242,9 @@ class Main extends React.Component {
               selectedChannelId={this.state.selectedChannelId}
               selectedChannelName={this.state.selectedChannelName}
               handleSendTalk={(e, i, _talk, userId) => this.handleSendTalk(e, i, _talk, userId)}
-              userId={this.state.userId} />
+              userId={this.state.userId}
+              accounts={this.state.accounts}
+              />
           </Grid>
         </Grid>
         <NotificationSystem ref="notificationSystem" />
