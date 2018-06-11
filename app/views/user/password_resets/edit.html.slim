@@ -1,8 +1,14 @@
-h1 パスワードリセット
-= form_with(model: User.new, url: {action: 'update'}, method: :patch, data: {remote: false}) do |form|
-  dl
-    dt パスワード
-    dd = form.password_field :password
-    dt パスワード（確認）
-    dd = form.password_field :password_confirmation
-    dt = form.submit "送信する"
+.col-10.offset-1
+  .card
+    .card-header
+      .card-title パスワードリセット
+    .card-body
+      = form_with(model: User.new, url: {action: 'update'}, method: :patch, data: {remote: false}) do |form|
+        .form-group
+          label.col-4 パスワード
+          = form.password_field :password
+        .form-group
+          label.col-4 パスワード（確認）
+          = form.password_field :password_confirmation
+        .form-group
+          = form.submit "送信する", class: 'btn btn-primary float-right'
