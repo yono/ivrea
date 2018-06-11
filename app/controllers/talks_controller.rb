@@ -9,6 +9,12 @@ class TalksController < ApplicationController
     @talks = @talks.decorate
   end
 
+  def destroy
+    @talk = Talk.find(params[:id])
+    @talk.destroy
+    render json: {head: :ok}
+  end
+
   private
 
   def talk_params

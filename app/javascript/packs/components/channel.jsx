@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
+import Icon from 'material-ui/Icon';
 import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
@@ -92,6 +93,15 @@ class Channel extends React.Component {
                     <Emoji text={talk.note}/>
                   </Typography>
                 </div>
+                {(() => {
+                  if (talk.user_name === this.props.userName) {
+                    return (<div style={{float: 'right'}}>
+                      <Typography>
+                        <Icon onClick={(e) => this.props.handleDeleteTalk(e, talk.id)}>clear</Icon>
+                      </Typography>
+                    </div>)
+                  }
+                })()}
               </CardContent>
             </Card>
           </ListItem>
