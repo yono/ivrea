@@ -141,7 +141,7 @@ class ChannelList extends React.Component {
         >
         <DialogTitle id="form-dialog-delete-title">Delete a channel</DialogTitle>
         <DialogContent>
-          チャンネルを削除すると発言もすべて削除されます。
+          チャンネルを削除すると発言もすべて削除されます。<br/>
           {this.state.willDeleteChannelName}を削除してよろしいですか？
         </DialogContent>
         <DialogActions>
