@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import List, {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader
+} from 'material-ui/List';
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
