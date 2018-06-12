@@ -11,6 +11,7 @@ class User::PasswordResetsController < ApplicationController
       @user.create_reset_password_link
       password_reset = @user.password_resets.first
       PasswordResetMailer.password_reset_link_email(@user, password_reset).deliver
+      flash.now[:success] = '入力されたメールアドレスへメールを送信しました'
       render :new
     else
       flash.now[:error] = '登録されていないメールアドレスです'
