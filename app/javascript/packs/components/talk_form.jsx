@@ -17,7 +17,7 @@ const autoSuggestTheme = {
     width: '100%',
   },
   input: {
-    width: '100%',
+    width: '98%',
     height: '40px',
     paddingLeft: '10px',
     marginLeft: '30px',
