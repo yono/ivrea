@@ -24,8 +24,8 @@ class User::PasswordResetsController < ApplicationController
   end
 
   def update
-    user = password_reset.user
-    if user.update(password_reset_params)
+    @user = @password_reset.user
+    if @user.update(password_reset_params)
       redirect_to completed_password_resets_url
     else
       render :edit
@@ -46,8 +46,8 @@ class User::PasswordResetsController < ApplicationController
   end
 
   def block_invalid_access
-    password_reset = User::PasswordReset.find_by(code: params[:code])
-    if !password_reset || password_reset.expired?
+    @password_reset = User::PasswordReset.find_by(code: params[:code])
+    if !@password_reset || @password_reset.expired?
       redirect_to root_url
     end
   end
