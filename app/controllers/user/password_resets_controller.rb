@@ -1,5 +1,6 @@
 class User::PasswordResetsController < ApplicationController
   skip_before_action :require_user
+  before_action :block_invalid_access, only: [:edit, :update]
 
   def new
     @user = User.new
@@ -20,18 +21,9 @@ class User::PasswordResetsController < ApplicationController
   end
 
   def edit
-    password_reset = User::PasswordReset.find_by(code: params[:code])
-    if !password_reset || password_reset.expired?
-      redirect_to root_url
-    end
   end
 
   def update
-    password_reset = User::PasswordReset.find_by(code: params[:code])
-    if !password_reset || password_reset.expired?
-      redirect_to root_url
-    end
-
     user = password_reset.user
     if user.update(password_reset_params)
       redirect_to completed_password_resets_url
@@ -51,5 +43,12 @@ class User::PasswordResetsController < ApplicationController
 
   def password_reset_params
     params.require(:user).permit(:password, :password_confirmation)
+  end
+
+  def block_invalid_access
+    password_reset = User::PasswordReset.find_by(code: params[:code])
+    if !password_reset || password_reset.expired?
+      redirect_to root_url
+    end
   end
 end
