@@ -72,6 +72,17 @@ const styles = theme => ({
     float: 'right',
     fontSize: '12px',
   },
+  deleteMessage: {
+    '&:hover': {
+      borderStyle: 'solid',
+      borderColor: '#2d2d2d',
+      borderWidth: '1px',
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      borderBottomLeftRadius: 16,
+      borderBottomRightRadius: 16,
+    }
+  }
 });
 
 class Channel extends React.Component {
@@ -133,7 +144,11 @@ class Channel extends React.Component {
                   if (talk.user_id === this.props.userId) {
                     return (<div style={{float: 'right'}}>
                       <Typography>
-                        <Icon onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>clear</Icon>
+                        <Icon
+                          className={this.props.classes.deleteMessage}
+                          onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>
+                          clear
+                        </Icon>
                       </Typography>
                     </div>
                   )}
