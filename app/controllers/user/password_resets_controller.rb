@@ -13,7 +13,8 @@ class User::PasswordResetsController < ApplicationController
       PasswordResetMailer.password_reset_link_email(@user, password_reset).deliver
       render :new
     else
-      render :new, notice: 'hoge'
+      flash.now[:error] = '登録されていないメールアドレスです'
+      render :new
     end
   end
 
