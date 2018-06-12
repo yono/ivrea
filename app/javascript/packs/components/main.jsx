@@ -54,6 +54,13 @@ class Main extends React.Component {
     })
   }
 
+  _addChannelDeleteNotification(channelName) {
+    this.state._notificationSystem.addNotification({
+      message: `#${channelName}が削除されました`,
+      level: "success",
+    })
+  }
+
   componentDidMount() {
     this.subscriptChannel();
     this.subscriptChannelList();
@@ -151,7 +158,23 @@ class Main extends React.Component {
       },
       received(data) {
         const channel = data
-        this.setState({channels: this.state.channels.concat([{id: channel.id, name: channel.name, talks: []}])})
+        if (channel.destroy) {
+          const deletedChannelId = channel.id;
+          const selectedChannelId = this.state.selectedChannelId;
+          const selectedChannelName = this.state.selectedChannelName;
+          const channels = this.state.channels.filter(function(o) { return o.id !== deletedChannelId }.bind(this))
+          if (deletedChannelId === selectedChannelId) {
+            const newSelectedChannelId = this.state.channels[0].id;
+            const newSelectedChannelName = this.state.channels[0].name;
+            this._addChannelDeleteNotification(channel.name);
+            this.setState({channels: channels, selectedChannelId: newSelectedChannelId, selectedChannelName: newSelectedChannelName})
+          } else {
+            this._addChannelDeleteNotification(channel.name);
+            this.setState({channels: channels})
+          }
+        } else {
+          this.setState({channels: this.state.channels.concat([{id: channel.id, name: channel.name, talks: []}])})
+        }
       }
     });
     App.channelList.received = App.channelList.received.bind(this);
@@ -241,6 +264,23 @@ class Main extends React.Component {
     })
   }
 
+  handleDeleteChannel(channelId) {
+    axios.delete(`/channels/${channelId}.json`).then((response) => {
+      const deletedChannelId = channelId;
+      const selectedChannelId = this.state.selectedChannelId;
+      const selectedChannelName = this.state.selectedChannelName;
+      const channels = this.state.channels.filter(function(o) { return o.id !== deletedChannelId }.bind(this))
+      if (deletedChannelId === selectedChannelId) {
+        const newSelectedChannelId = this.state.channels[0].id;
+        const newSelectedChannelName = this.state.channels[0].name;
+        this.setState({channels: channels, selectedChannelId: newSelectedChannelId, selectedChannelName: newSelectedChannelName})
+      } else {
+        this.setState({channels: channels})
+      }
+    })
+  }
+
+
   handleLogout() {
     axios.delete('/sessions.json').then((response) => {
       window.location.reload()
@@ -261,6 +301,7 @@ class Main extends React.Component {
               selectedChannelId={this.state.selectedChannelId}
               handleClickChannel={(i, name) => this.handleClickChannel(i, name)}
               handleCreateChannel={(name) => this.handleCreateChannel(name)}
+              handleDeleteChannel={(channelId) => this.handleDeleteChannel(channelId)}
             />
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>

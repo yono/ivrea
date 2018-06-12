@@ -50,22 +50,39 @@ class ChannelList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false,
+      openCreateDialog: false,
+      openDeleteDialog: false,
+      willDeleteChannelId: 0,
+      willDeleteChannelName: ""
     }
   }
 
-  handleClickOpen() {
-    this.setState({ open: true })
+  handleClickOpenCreateDialog() {
+    this.setState({ openCreateDialog: true })
   }
 
-  handleClickClose() {
-    this.setState({ open: false })
+  handleClickCloseCreateDialog() {
+    this.setState({ openCreateDialog: false })
+  }
+
+  handleClickOpenDeleteDialog(e, channelId, channelName) {
+    this.setState({ openDeleteDialog: true, willDeleteChannelId: channelId, willDeleteChannelName: channelName })
+  }
+
+  handleClickCloseDeleteDialog() {
+    this.setState({ openDeleteDialog: false, willDeleteChannelId: 0, willDeleteChannelName: "" })
   }
 
   handleCreateChannel() {
     name = document.querySelector("#channelName").value
     this.props.handleCreateChannel(name)
-    this.handleClickClose()
+    this.handleClickCloseCreateDialog()
+  }
+
+  handleDeleteChannel(e) {
+    const channelId = this.state.willDeleteChannelId;
+    this.props.handleDeleteChannel(channelId);
+    this.handleClickCloseDeleteDialog();
   }
 
   render() {
@@ -75,12 +92,14 @@ class ChannelList extends React.Component {
           return (
             <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
               <ListItemText disableTypography={true} primary={"# " + channel.name}/>
+              <Icon onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>clear</Icon>
             </ListItem>
           )
         } else {
           return (
             <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
               <ListItemText disableTypography={true} primary={"# " + channel.name}/>
+              <Icon onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>clear</Icon>
             </ListItem>
           )
         }
@@ -90,8 +109,8 @@ class ChannelList extends React.Component {
     return (
       <div className={this.props.classes.all}>
       <Dialog
-        open={this.state.open}
-        onClose={(e) => this.handleClickClose(e)}
+        open={this.state.openCreateDialog}
+        onClose={(e) => this.handleClickCloseCreateDialog(e)}
         aria-labelledby="form-dialog-title"
         >
         <DialogTitle id="form-dialog-title">Create a channel</DialogTitle>
@@ -106,11 +125,30 @@ class ChannelList extends React.Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={(e) => this.handleClickClose(e)} color="primary">
+          <Button onClick={(e) => this.handleClickCloseCreateDialog(e)} color="primary">
             Cancel
           </Button>
           <Button onClick={(e) => this.handleCreateChannel(e)} color="primary">
             Create Channel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={this.state.openDeleteDialog}
+        onClose={(e) => this.handleClickCloseDeleteDialog(e)}
+        aria-labelledby="form-dialog-delete-title"
+        >
+        <DialogTitle id="form-dialog-delete-title">Delete a channel</DialogTitle>
+        <DialogContent>
+          チャンネルを削除すると発言もすべて削除されます。
+          {this.state.willDeleteChannelName}を削除してよろしいですか？
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={(e) => this.handleClickCloseDeleteDialog(e)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={(e) => this.handleDeleteChannel(e)} color="primary">
+            Delete Channel
           </Button>
         </DialogActions>
       </Dialog>
@@ -119,7 +157,7 @@ class ChannelList extends React.Component {
           <Typography className={this.props.classes.channelHeader} >Channels
           <Icon
             className={this.props.classes.addChannel}
-            onClick={(e) => this.handleClickOpen(e)}>add_circle</Icon>
+            onClick={(e) => this.handleClickOpenCreateDialog(e, this.state.willDeleteChannelId)}>add_circle</Icon>
           </Typography>
           </ListSubheader>}
         >

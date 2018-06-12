@@ -14,6 +14,13 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def destroy
+    @channel = Channel.find(params[:id])
+    @channel.destroy
+    ActionCable.server.broadcast 'channel_channel', @channel.attributes.merge!(destroy: true)
+    render json: {head: :ok}
+  end
+
   private
 
   def channel_params
