@@ -107,6 +107,17 @@ class Main extends React.Component {
         },
         received(data) {
           const talk = data
+          if (talk.destroy) {
+            const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
+            const targetChannel = this.state.channels[targetChannelIndex];
+            const targetTalks = targetChannel.talks.filter(function(o) { return o.id !== talk.id }.bind(this));
+            const channel = {id: targetChannel.id, name: targetChannel.name, talks: targetTalks};
+            var _channels = this.state.channels.slice();
+            _channels.splice(targetChannelIndex, 1, channel)
+            this.setState({channels: _channels});
+            return;
+          }
+
           if (talk.channel_id === this.state.selectedChannelId) {
             const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
             const targetChannel = this.state.channels[targetChannelIndex];
@@ -201,6 +212,26 @@ class Main extends React.Component {
     App.sample.post(i, _talk, userId)
   }
 
+  handleDeleteTalk(e, talkId) {
+    e.preventDefault()
+    const selectedChannelId = this.state.selectedChannelId;
+    axios.delete(`/channels/${selectedChannelId}/talks/${talkId}.json`).then((response) => {
+      const selectedChannelId = this.state.selectedChannelId;
+      const selectedChannelName = this.state.selectedChannelName;
+      const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
+      const targetChannel = this.state.channels[targetChannelIndex];
+      const targetTalks = targetChannel.talks.filter(function(o) { return o.id !== talkId }.bind(this));
+      const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetTalks};
+      var _channels = this.state.channels.slice();
+      _channels.splice(targetChannelIndex, 1, channel)
+      this.setState({channels: _channels,
+                     selectedChannelId: selectedChannelId,
+                     selectedChannelName: selectedChannelName})
+    }).catch((response) => {
+      console.log(response)
+    })
+  }
+
   handleCreateChannel(channelName) {
     const name = channelName
     axios.post('/channels.json', {channel: {name: name}}).then((response) => {
@@ -237,7 +268,12 @@ class Main extends React.Component {
               talks={talks}
               className={this.props.classes.allScroll}
               selectedChannelName={this.state.selectedChannelName}
-              handleLogout={() => this.handleLogout()}/>
+              selectedChannelId={this.state.selectedChannelId}
+              handleLogout={() => this.handleLogout()}
+              userId={this.state.userId}
+              userName={this.state.userName}
+              handleDeleteTalk={(e, talkId) => this.handleDeleteTalk(e, talkId)}
+              />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}
               selectedChannelName={this.state.selectedChannelName}

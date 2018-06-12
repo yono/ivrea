@@ -6,6 +6,12 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
+import Icon from 'material-ui/Icon';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from 'material-ui/Dialog';
 import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
@@ -69,10 +75,40 @@ const styles = theme => ({
 
 class Channel extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      open: false,
+      willDeleteTalkId: 0,
+      willDeleteMessage: "",
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.talks.length > 0) {
       document.getElementById('note-' + this.props.talks[this.props.talks.length - 1].id).scrollIntoView()
     }
+  }
+
+  handleClickOpen(e, talkId, message) {
+    this.setState({
+      open: true,
+      willDeleteTalkId: talkId,
+      willDeleteMessage: message
+    })
+  }
+
+  handleClickClose() {
+    this.setState({
+      open: false,
+      willDeleteTalkId: 0,
+      willDeleteMessage: ""
+    })
+  }
+
+  deleteTalk(e, talk_id) {
+    this.props.handleDeleteTalk(e, talk_id)
+    this.handleClickClose()
   }
 
   render() {
@@ -92,8 +128,35 @@ class Channel extends React.Component {
                     <Emoji text={talk.note}/>
                   </Typography>
                 </div>
+                {(() => {
+                  if (talk.user_id === this.props.userId) {
+                    return (<div style={{float: 'right'}}>
+                      <Typography>
+                        <Icon onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>clear</Icon>
+                      </Typography>
+                    </div>
+                  )}
+                })()}
               </CardContent>
             </Card>
+            <Dialog
+              open={this.state.open}
+              onClose={(e) => this.handleClickClose(e)}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Delete message</DialogTitle>
+              <DialogContent>
+                「
+                <Emoji text={this.state.willDeleteMessage}/>
+                」
+                <br/>
+                この発言を削除します。よろしいですか？
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={(e) => this.handleClickClose(e)} color="primary">Cancel</Button>
+                <Button onClick={(e) => this.deleteTalk(e, this.state.willDeleteTalkId)}>Delete Message</Button>
+              </DialogActions>
+            </Dialog>
           </ListItem>
         )
       }.bind(this)
