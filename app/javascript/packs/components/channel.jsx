@@ -129,7 +129,7 @@ class Channel extends React.Component {
                   </Typography>
                 </div>
                 {(() => {
-                  if (talk.user_name === this.props.userName) {
+                  if (talk.user_id === this.props.userId) {
                     return (<div style={{float: 'right'}}>
                       <Typography>
                         <Icon onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>clear</Icon>

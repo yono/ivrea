@@ -259,6 +259,7 @@ class Main extends React.Component {
               selectedChannelName={this.state.selectedChannelName}
               selectedChannelId={this.state.selectedChannelId}
               handleLogout={() => this.handleLogout()}
+              userId={this.state.userId}
               userName={this.state.userName}
               handleDeleteTalk={(e, talkId) => this.handleDeleteTalk(e, talkId)}
               />
