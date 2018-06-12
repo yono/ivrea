@@ -101,31 +101,18 @@ class ChannelList extends React.Component {
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const channelItems = this.props.channels.map(function (channel) {
-        if (channel.id === selectedChannelId) {
-          return (
-            <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
-              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
-              <Icon
-                className={this.props.classes.deleteChannel}
-                onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>
-                clear
-              </Icon>
-            </ListItem>
-          )
-        } else {
-          return (
-            <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
-              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
-              <Icon
-                className={this.props.classes.deleteChannel}
-                onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>
-                clear
-              </Icon>
-            </ListItem>
-          )
-        }
-      }.bind(this)
-    )
+      const channelTheme = channel.id === selectedChannelId ? this.props.classes.selectedChannel : this.props.classes.channel
+      return (
+        <ListItem key={channel.id} value={channel.id} className={channelTheme} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
+          <ListItemText disableTypography={true} primary={"# " + channel.name}/>
+          <Icon
+            className={this.props.classes.deleteChannel}
+            onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>
+            clear
+          </Icon>
+        </ListItem>
+      )
+    }.bind(this))
 
     return (
       <div className={this.props.classes.all}>
