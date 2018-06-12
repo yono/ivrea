@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Button from 'material-ui/Button';
@@ -166,6 +167,14 @@ class ChannelList extends React.Component {
       </div>
     )
   }
+}
+
+ChannelList.propTypes = {
+  channels: PropTypes.array,
+  selectedChannelId: PropTypes.number,
+  handleClickChannel: PropTypes.func,
+  handleCreateChannel: PropTypes.func,
+  handleDeleteChannel: PropTypes.func,
 }
 
 export default withStyles(styles)(ChannelList)

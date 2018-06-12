@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -177,6 +178,16 @@ class Channel extends React.Component {
       </div>
     )
   }
+}
+
+Channel.propTypes = {
+  className: PropTypes.string,
+  selectedChannelName: PropTypes.string,
+  selectedChannelId: PropTypes.number,
+  handleLogout: PropTypes.func,
+  userId: PropTypes.number,
+  userName: PropTypes.string,
+  handleDeleteTalk: PropTypes.func,
 }
 
 export default withStyles(styles)(Channel);
