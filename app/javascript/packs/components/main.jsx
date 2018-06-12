@@ -107,6 +107,17 @@ class Main extends React.Component {
         },
         received(data) {
           const talk = data
+          if (talk.destroy) {
+            const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
+            const targetChannel = this.state.channels[targetChannelIndex];
+            const targetTalks = targetChannel.talks.filter(function(o) { return o.id !== talk.id }.bind(this));
+            const channel = {id: targetChannel.id, name: targetChannel.name, talks: targetTalks};
+            var _channels = this.state.channels.slice();
+            _channels.splice(targetChannelIndex, 1, channel)
+            this.setState({channels: _channels});
+            return;
+          }
+
           if (talk.channel_id === this.state.selectedChannelId) {
             const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
             const targetChannel = this.state.channels[targetChannelIndex];
