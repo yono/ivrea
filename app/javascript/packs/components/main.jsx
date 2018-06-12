@@ -61,6 +61,13 @@ class Main extends React.Component {
     })
   }
 
+  _addChannelCreateFailedNotification(channelName) {
+    this.state._notificationSystem.addNotification({
+      message: `#${channelName}は既に存在します`,
+      level: "error",
+    })
+  }
+
   componentDidMount() {
     this.subscriptChannel();
     this.subscriptChannelList();
@@ -238,9 +245,12 @@ class Main extends React.Component {
   handleCreateChannel(channelName) {
     const name = channelName
     axios.post('/channels.json', {channel: {name: name}}).then((response) => {
-      return
+      const data = response.data;
+      if (data.status === "error") {
+        this._addChannelCreateFailedNotification(channelName);
+      }
     }).catch((response) => {
-      console.log(reponse)
+      console.log(response)
     })
   }
 

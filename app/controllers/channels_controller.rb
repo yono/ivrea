@@ -5,7 +5,8 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    if channel = Channel.create!(channel_params)
+    channel = Channel.new(channel_params)
+    if channel.save
       render json: {head: :ok}
     else
       render json: {status: "error",
