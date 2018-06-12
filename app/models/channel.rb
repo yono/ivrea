@@ -1,5 +1,5 @@
 class Channel < ApplicationRecord
-  has_many :talks
+  has_many :talks, dependent: :destroy
   validates :name, uniqueness: true, presence: true
 
   after_create_commit :send_new_channel
