@@ -44,6 +44,10 @@ const styles = theme => ({
   },
   channelCard: {
     boxShadow: 'none',
+    width: '100%',
+    '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
   },
   channelCardContent: {
     paddingTop: '0px',
@@ -81,6 +85,7 @@ const styles = theme => ({
       borderTopRightRadius: 16,
       borderBottomLeftRadius: 16,
       borderBottomRightRadius: 16,
+      cursor: 'pointer'
     }
   }
 });

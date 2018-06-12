@@ -47,6 +47,7 @@ const styles = {
     '&:hover': {
       backgroundColor: '#2D2D2D',
       color: '#cac4c9',
+      cursor: 'pointer'
     }
   },
   deleteChannel: {
@@ -59,6 +60,7 @@ const styles = {
       borderTopRightRadius: 16,
       borderBottomLeftRadius: 16,
       borderBottomRightRadius: 16,
+      cursor: 'pointer'
     }
   }
 };
