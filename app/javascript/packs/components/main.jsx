@@ -76,7 +76,6 @@ class Main extends React.Component {
           const userName = user.name
           axios.get("/accounts.json").then((response) => {
             const accounts = response.data
-            console.log(accounts)
             this.setState({
               channels: channels.map(function (channel) {
                 if (channel.id === selectedChannelId) {
