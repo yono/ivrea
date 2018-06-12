@@ -16,9 +16,14 @@ class ChannelsController < ApplicationController
 
   def destroy
     @channel = Channel.find(params[:id])
-    @channel.destroy
-    ActionCable.server.broadcast 'channel_channel', @channel.attributes.merge!(destroy: true)
-    render json: {head: :ok}
+    if @channel.destroy
+      ActionCable.server.broadcast 'channel_channel', @channel.attributes.merge!(destroy: true)
+      render json: {head: :ok}
+    else
+      render json: {status: "error",
+                    code: 500,
+                    content: {message: @channel.errors.full_messages.join}}
+    end
   end
 
   private
