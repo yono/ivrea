@@ -3,9 +3,9 @@
     .card-header
       .card-title LOGIN
     .card-body
-      - if flash[:error]
+      - if flash.now[:error]
         .alert.alert-danger
-          = flash[:error]
+          = flash.now[:error]
       = form_with(scope: :session, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
         .form-group
           label.col-4 メールアドレス
