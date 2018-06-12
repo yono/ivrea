@@ -54,6 +54,13 @@ class Main extends React.Component {
     })
   }
 
+  _addChannelDeleteNotification(channelName) {
+    this.state._notificationSystem.addNotification({
+      message: `#${channelName}が削除されました`,
+      level: "success",
+    })
+  }
+
   componentDidMount() {
     this.subscriptChannel();
     this.subscriptChannelList();
@@ -159,8 +166,10 @@ class Main extends React.Component {
           if (deletedChannelId === selectedChannelId) {
             const newSelectedChannelId = this.state.channels[0].id;
             const newSelectedChannelName = this.state.channels[0].name;
+            this._addChannelDeleteNotification(channel.name);
             this.setState({channels: channels, selectedChannelId: newSelectedChannelId, selectedChannelName: newSelectedChannelName})
           } else {
+            this._addChannelDeleteNotification(channel.name);
             this.setState({channels: channels})
           }
         } else {
