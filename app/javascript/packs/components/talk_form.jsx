@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
@@ -16,7 +17,7 @@ const autoSuggestTheme = {
     width: '100%',
   },
   input: {
-    width: '100%',
+    width: '98%',
     height: '40px',
     paddingLeft: '10px',
     marginLeft: '30px',
@@ -145,6 +146,14 @@ class TalkForm extends React.Component {
       </div>
     )
   }
+}
+
+TalkForm.propTypes = {
+  selectedChannelId: PropTypes.number,
+  selectedChannelName: PropTypes.string,
+  handleSendTalk: PropTypes.func,
+  userId: PropTypes.number,
+  accounts: PropTypes.array,
 }
 
 export default withStyles(styles)(TalkForm)

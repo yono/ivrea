@@ -3,6 +3,12 @@
     .card-header
       .card-title パスワードリセット
     .card-body
+      - if flash.now[:error]
+        .alert.alert-danger
+          = flash.now[:error]
+      - if flash.now[:success]
+        .alert.alert-success
+          = flash.now[:success]
       = form_with(model: User.new, url: {action: 'create'}, method: :post, data: {remote: false}) do |form|
         .form-group
           label.col-4 メールアドレス

@@ -2,11 +2,12 @@
   .card
     .card-header
       .card-title プロフィール編集
-      - if @user.errors.any?
-        ul
-          - @user.errors.full_messages.each do |message|
-            li = message
     .card-body
+      - if @user.errors.any?
+        .alert.alert-danger
+          ul
+            - @user.errors.full_messages.each do |message|
+              li = message
       = form_with(model: @user, url: {action: 'update'}, method: :put, data: {remote: false}) do |form|
         .form-group
           label.col-4 アイコン

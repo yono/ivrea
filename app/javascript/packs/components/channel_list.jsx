@@ -1,6 +1,11 @@
 import React from 'react';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import PropTypes from 'prop-types';
+import List, {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader
+} from 'material-ui/List';
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
@@ -39,9 +44,23 @@ const styles = {
     '&:active': {
       boxShadow: 'none',
     },
-    '&hover': {
+    '&:hover': {
       backgroundColor: '#2D2D2D',
       color: '#cac4c9',
+      cursor: 'pointer'
+    }
+  },
+  deleteChannel: {
+    '&:hover': {
+      color: '#DDD',
+      borderStyle: 'solid',
+      borderColor: '#fff',
+      borderWidth: '1px',
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      borderBottomLeftRadius: 16,
+      borderBottomRightRadius: 16,
+      cursor: 'pointer'
     }
   }
 };
@@ -88,23 +107,18 @@ class ChannelList extends React.Component {
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const channelItems = this.props.channels.map(function (channel) {
-        if (channel.id === selectedChannelId) {
-          return (
-            <ListItem key={channel.id} value={channel.id} className={this.props.classes.selectedChannel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
-              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
-              <Icon onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>clear</Icon>
-            </ListItem>
-          )
-        } else {
-          return (
-            <ListItem button key={channel.id} value={channel.id} className={this.props.classes.channel} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
-              <ListItemText disableTypography={true} primary={"# " + channel.name}/>
-              <Icon onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>clear</Icon>
-            </ListItem>
-          )
-        }
-      }.bind(this)
-    )
+      const channelTheme = channel.id === selectedChannelId ? this.props.classes.selectedChannel : this.props.classes.channel
+      return (
+        <ListItem key={channel.id} value={channel.id} className={channelTheme} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
+          <ListItemText disableTypography={true} primary={"# " + channel.name}/>
+          <Icon
+            className={this.props.classes.deleteChannel}
+            onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>
+            clear
+          </Icon>
+        </ListItem>
+      )
+    }.bind(this))
 
     return (
       <div className={this.props.classes.all}>
@@ -140,7 +154,7 @@ class ChannelList extends React.Component {
         >
         <DialogTitle id="form-dialog-delete-title">Delete a channel</DialogTitle>
         <DialogContent>
-          チャンネルを削除すると発言もすべて削除されます。
+          チャンネルを削除すると発言もすべて削除されます。<br/>
           {this.state.willDeleteChannelName}を削除してよろしいですか？
         </DialogContent>
         <DialogActions>
@@ -166,6 +180,14 @@ class ChannelList extends React.Component {
       </div>
     )
   }
+}
+
+ChannelList.propTypes = {
+  channels: PropTypes.array,
+  selectedChannelId: PropTypes.number,
+  handleClickChannel: PropTypes.func,
+  handleCreateChannel: PropTypes.func,
+  handleDeleteChannel: PropTypes.func,
 }
 
 export default withStyles(styles)(ChannelList)

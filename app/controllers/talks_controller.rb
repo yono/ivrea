@@ -11,9 +11,14 @@ class TalksController < ApplicationController
 
   def destroy
     @talk = Talk.find(params[:id])
-    @talk.destroy
-    ActionCable.server.broadcast 'chat_channel', @talk.attributes.merge!(destroy: true)
-    render json: {head: :ok}
+    if @talk.destroy
+      ActionCable.server.broadcast 'chat_channel', @talk.attributes.merge!(destroy: true)
+      render json: {head: :ok}
+    else
+      render json: {status: "error",
+                    code: 500,
+                    content: {message: @talk.errors.full_messages.join}}
+    end
   end
 
   private

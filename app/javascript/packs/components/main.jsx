@@ -61,6 +61,13 @@ class Main extends React.Component {
     })
   }
 
+  _addChannelCreateFailedNotification(channelName) {
+    this.state._notificationSystem.addNotification({
+      message: `#${channelName}は既に存在します`,
+      level: "error",
+    })
+  }
+
   componentDidMount() {
     this.subscriptChannel();
     this.subscriptChannelList();
@@ -76,7 +83,6 @@ class Main extends React.Component {
           const userName = user.name
           axios.get("/accounts.json").then((response) => {
             const accounts = response.data
-            console.log(accounts)
             this.setState({
               channels: channels.map(function (channel) {
                 if (channel.id === selectedChannelId) {
@@ -180,51 +186,32 @@ class Main extends React.Component {
     App.channelList.received = App.channelList.received.bind(this);
   }
 
-  // FIXME ロジックが煩雑なのでリファクタしたい
   handleClickChannel(i, name) {
     const selectedChannelId = i
     const selectedChannelName = name
     const selectedChannelTalks = this.state.channels.find(function(o) {return o.id === selectedChannelId}.bind(this)).talks
-    if (selectedChannelTalks.length > 0) {
-      const selectedChannelLastTalkId = selectedChannelTalks[selectedChannelTalks.length - 1].id;
-      axios.get(`/channels/${selectedChannelId}/talks.json?after=${selectedChannelLastTalkId}`).then((response) => {
-        const newTalks = response.data;
-        if (newTalks.length === 0) {
-          this.setState({selectedChannelId: selectedChannelId,
-                         selectedChannelName: selectedChannelName})
-        } else {
-          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
-          const targetChannel = this.state.channels[targetChannelIndex];
-          const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat([newTalks])};
-          var _channels = this.state.channels.slice();
-          _channels.splice(targetChannelIndex, 1, channel);
-          this.setState({channels: _channels,
-                         selectedChannelId: selectedChannelId,
-                         selectedChannelName: selectedChannelName})
-        }
-      }).catch((response) => {
-        console.log(response)
-      })
-    } else {
-      axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
-        const newTalks = response.data;
-        if (newTalks.length === 0) {
-          this.setState({selectedChannelId: selectedChannelId,
-                         selectedChannelName: selectedChannelName})
-        } else {
-          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
-          const targetChannel = this.state.channels[targetChannelIndex];
-          const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat(newTalks)};
-          var _channels = this.state.channels.slice();
-          _channels.splice(targetChannelIndex, 1, channel);
-          this.setState({channels: _channels,
-                         selectedChannelId: selectedChannelId,
-                         selectedChannelName: selectedChannelName})
-        }
-      }).catch((response) => {
-        console.log(response)
-      })
-    }
+    const talkUrl = selectedChannelTalks.length > 0 ?
+      `/channels/${selectedChannelId}/talks.json?after=${selectedChannelTalks[selectedChannelTalks.length - 1].id}` :
+      `/channels/${selectedChannelId}/talks.json`
+
+    axios.get(talkUrl).then((response) => {
+      const newTalks = response.data;
+      if (newTalks.length === 0) {
+        this.setState({selectedChannelId: selectedChannelId,
+                       selectedChannelName: selectedChannelName})
+      } else {
+        const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
+        const targetChannel = this.state.channels[targetChannelIndex];
+        const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat(newTalks)};
+        var _channels = this.state.channels.slice();
+        _channels.splice(targetChannelIndex, 1, channel);
+        this.setState({channels: _channels,
+                       selectedChannelId: selectedChannelId,
+                       selectedChannelName: selectedChannelName})
+      }
+    }).catch((response) => {
+      console.log(response)
+    })
   }
 
   handleSendTalk(e, i, _talk, userId) {
@@ -258,9 +245,12 @@ class Main extends React.Component {
   handleCreateChannel(channelName) {
     const name = channelName
     axios.post('/channels.json', {channel: {name: name}}).then((response) => {
-      return
+      const data = response.data;
+      if (data.status === "error") {
+        this._addChannelCreateFailedNotification(channelName);
+      }
     }).catch((response) => {
-      console.log(reponse)
+      console.log(response)
     })
   }
 

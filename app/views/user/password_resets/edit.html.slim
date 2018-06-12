@@ -3,6 +3,11 @@
     .card-header
       .card-title パスワードリセット
     .card-body
+      - if @user&.errors
+        .alert.alert-danger
+          ul
+            - @user.errors.full_messages.each do |message|
+              li = message
       = form_with(model: User.new, url: {action: 'update'}, method: :patch, data: {remote: false}) do |form|
         .form-group
           label.col-4 パスワード

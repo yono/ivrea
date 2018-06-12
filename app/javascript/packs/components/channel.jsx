@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
@@ -43,6 +44,10 @@ const styles = theme => ({
   },
   channelCard: {
     boxShadow: 'none',
+    width: '100%',
+    '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
   },
   channelCardContent: {
     paddingTop: '0px',
@@ -71,6 +76,18 @@ const styles = theme => ({
     float: 'right',
     fontSize: '12px',
   },
+  deleteMessage: {
+    '&:hover': {
+      borderStyle: 'solid',
+      borderColor: '#2d2d2d',
+      borderWidth: '1px',
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      borderBottomLeftRadius: 16,
+      borderBottomRightRadius: 16,
+      cursor: 'pointer'
+    }
+  }
 });
 
 class Channel extends React.Component {
@@ -132,7 +149,11 @@ class Channel extends React.Component {
                   if (talk.user_id === this.props.userId) {
                     return (<div style={{float: 'right'}}>
                       <Typography>
-                        <Icon onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>clear</Icon>
+                        <Icon
+                          className={this.props.classes.deleteMessage}
+                          onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>
+                          clear
+                        </Icon>
                       </Typography>
                     </div>
                   )}
@@ -177,6 +198,16 @@ class Channel extends React.Component {
       </div>
     )
   }
+}
+
+Channel.propTypes = {
+  className: PropTypes.string,
+  selectedChannelName: PropTypes.string,
+  selectedChannelId: PropTypes.number,
+  handleLogout: PropTypes.func,
+  userId: PropTypes.number,
+  userName: PropTypes.string,
+  handleDeleteTalk: PropTypes.func,
 }
 
 export default withStyles(styles)(Channel);

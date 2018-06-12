@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :require_user
   helper_method :current_user, :current_user=
 
+  private
+
   def require_user
     redirect_to new_sessions_path unless session[:user_id]
   end
