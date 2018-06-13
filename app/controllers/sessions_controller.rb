@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def show
     @user = current_user
+    @user = @user.decorate
   end
 
   def new

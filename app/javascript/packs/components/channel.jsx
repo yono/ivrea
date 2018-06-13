@@ -8,11 +8,13 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import Icon from 'material-ui/Icon';
+import IconButton from 'material-ui/IconButton';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle,
 } from 'material-ui/Dialog';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
@@ -58,7 +60,7 @@ const styles = theme => ({
     }
   },
   channelHeader: {
-    marginTop: '20px',
+    marginTop: '26px',
     marginBottom: '20px',
     fontWeight: 'bold',
     fontSize: '20px',
@@ -76,6 +78,15 @@ const styles = theme => ({
   profile: {
     float: 'right',
     fontSize: '12px',
+  },
+  accountIcon: {
+    float: 'right',
+    marginTop: '-16px',
+    marginRight: '10px',
+  },
+  accountAvatar: {
+    height: '32px',
+    width: '32px',
   },
   deleteMessage: {
     '&:hover': {
@@ -103,6 +114,7 @@ class Channel extends React.Component {
       open: false,
       willDeleteTalkId: 0,
       willDeleteMessage: "",
+      anchorEl: null,
     }
   }
 
@@ -127,6 +139,14 @@ class Channel extends React.Component {
       willDeleteMessage: ""
     })
   }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
   deleteTalk(e, talk_id) {
     this.props.handleDeleteTalk(e, talk_id)
@@ -170,14 +190,39 @@ class Channel extends React.Component {
       }.bind(this)
     )
 
+    const anchorEl = this.state.anchorEl;
+    const open = Boolean(anchorEl);
+
     return (
       <div className={this.props.classes.allScroll}>
         <Typography className={this.props.classes.channelHeader}>
           {'#' + selectedChannelName}
-          <Button className={this.props.classes.logout} onClick={() => this.props.handleLogout()}>Logout</Button>
-          <Button className={this.props.classes.profile}>
-            <a href="/profiles">Profile</a>
-          </Button>
+          <IconButton
+            className={this.props.classes.accountIcon}
+            aria-owns={open ? 'menu-appbar' : null}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+          >
+            <Avatar className={this.props.classes.accountAvatar} src={this.props.userIconUrl}/>
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem>Login as {this.props.userName}</MenuItem>
+            <MenuItem><a href="/profiles">Profile</a></MenuItem>
+            <MenuItem onClick={() => this.props.handleLogout()}>Logout</MenuItem>
+          </Menu>
         </Typography>
         <List className={this.props.classes.scroll}>
           {talks}
@@ -212,6 +257,7 @@ Channel.propTypes = {
   handleLogout: PropTypes.func,
   userId: PropTypes.number,
   userName: PropTypes.string,
+  userIconUrl: PropTypes.string,
   handleDeleteTalk: PropTypes.func,
 }
 

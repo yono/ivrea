@@ -34,6 +34,7 @@ class Main extends React.Component {
       selectedChannelName: "",
       userId: 0,
       userName: "",
+      userIconUrl: "",
       formValue: "",
       _notificationSystem: null,
       accounts: [],
@@ -77,6 +78,7 @@ class Main extends React.Component {
           const user = response.data
           const userId = user.id
           const userName = user.name
+          const userIconUrl = user.icon_url
           axios.get("/accounts.json").then((response) => {
             const accounts = response.data
             this.setState({
@@ -88,6 +90,7 @@ class Main extends React.Component {
               selectedChannelName: selectedChannelName,
               userId: userId,
               userName: userName,
+              userIconUrl: userIconUrl,
               _notificationSystem: this.refs.notificationSystem,
               accounts: accounts,
             })
@@ -298,6 +301,7 @@ class Main extends React.Component {
               handleLogout={() => this.handleLogout()}
               userId={this.state.userId}
               userName={this.state.userName}
+              userIconUrl={this.state.userIconUrl}
               handleDeleteTalk={(e, talkId) => this.handleDeleteTalk(e, talkId)}
               />
             <TalkForm
