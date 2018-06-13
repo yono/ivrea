@@ -16,6 +16,15 @@ class ChatChannel < ApplicationCable::Channel
       user_name: user.name
     )
     talk = talk.decorate
-    ActionCable.server.broadcast 'chat_channel', talk.attributes.merge!(icon_url: talk.user_icon_url)
+    talk_attributes = {
+      id: talk.id,
+      note: talk.note,
+      icon_url: talk.user_icon_url,
+      created_at: I18n.l(talk.created_at, format: :short),
+      user_name: talk.user_name,
+      user_id: talk.user_id,
+      channel_id: talk.channel_id
+    }
+    ActionCable.server.broadcast 'chat_channel', talk_attributes
   end
 end

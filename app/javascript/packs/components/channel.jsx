@@ -8,11 +8,13 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import Icon from 'material-ui/Icon';
+import IconButton from 'material-ui/IconButton';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogTitle,
 } from 'material-ui/Dialog';
+import Menu, { MenuItem } from 'material-ui/Menu';
 import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
@@ -41,6 +43,7 @@ const styles = theme => ({
   channelListItem: {
     paddingTop: '0px',
     paddingBottom: '0px',
+    marginBottom: '6px'
   },
   channelCard: {
     boxShadow: 'none',
@@ -57,7 +60,7 @@ const styles = theme => ({
     }
   },
   channelHeader: {
-    marginTop: '20px',
+    marginTop: '26px',
     marginBottom: '20px',
     fontWeight: 'bold',
     fontSize: '20px',
@@ -76,6 +79,15 @@ const styles = theme => ({
     float: 'right',
     fontSize: '12px',
   },
+  accountIcon: {
+    float: 'right',
+    marginTop: '-16px',
+    marginRight: '10px',
+  },
+  accountAvatar: {
+    height: '32px',
+    width: '32px',
+  },
   deleteMessage: {
     '&:hover': {
       borderStyle: 'solid',
@@ -87,6 +99,10 @@ const styles = theme => ({
       borderBottomRightRadius: 16,
       cursor: 'pointer'
     }
+  },
+  createdAt: {
+    marginLeft: '10px',
+    color: '#bbb',
   }
 });
 
@@ -98,6 +114,7 @@ class Channel extends React.Component {
       open: false,
       willDeleteTalkId: 0,
       willDeleteMessage: "",
+      anchorEl: null,
     }
   }
 
@@ -123,6 +140,14 @@ class Channel extends React.Component {
     })
   }
 
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
   deleteTalk(e, talk_id) {
     this.props.handleDeleteTalk(e, talk_id)
     this.handleClickClose()
@@ -135,13 +160,13 @@ class Channel extends React.Component {
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card className={this.props.classes.channelCard}>
               <CardContent className={this.props.classes.channelCardContent}>
-                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px'}}/>
+                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px', marginTop: '4px'}}/>
                 <div style={{float: 'left', paddingBottom: '16px'}}>
                   <Typography className={this.props.classes.user}>
                     <span style={{fontWeight: 'bold'}}>{talk.user_name}</span>
-                    {` ${talk.created_at}`}
+                    <span className={this.props.classes.createdAt}>{`${talk.created_at}`}</span>
                   </Typography>
-                  <Typography style={{fontSize: '16px'}}>
+                  <Typography style={{fontSize: '18px'}}>
                     <Emoji text={talk.note}/>
                   </Typography>
                 </div>
@@ -160,41 +185,66 @@ class Channel extends React.Component {
                 })()}
               </CardContent>
             </Card>
-            <Dialog
-              open={this.state.open}
-              onClose={(e) => this.handleClickClose(e)}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Delete message</DialogTitle>
-              <DialogContent>
-                「
-                <Emoji text={this.state.willDeleteMessage}/>
-                」
-                <br/>
-                この発言を削除します。よろしいですか？
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={(e) => this.handleClickClose(e)} color="primary">Cancel</Button>
-                <Button onClick={(e) => this.deleteTalk(e, this.state.willDeleteTalkId)}>Delete Message</Button>
-              </DialogActions>
-            </Dialog>
           </ListItem>
         )
       }.bind(this)
     )
 
+    const anchorEl = this.state.anchorEl;
+    const open = Boolean(anchorEl);
+
     return (
       <div className={this.props.classes.allScroll}>
         <Typography className={this.props.classes.channelHeader}>
           {'#' + selectedChannelName}
-          <Button className={this.props.classes.logout} onClick={() => this.props.handleLogout()}>Logout</Button>
-          <Button className={this.props.classes.profile}>
-            <a href="/profiles">Profile</a>
-          </Button>
+          <IconButton
+            className={this.props.classes.accountIcon}
+            aria-owns={open ? 'menu-appbar' : null}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+          >
+            <Avatar className={this.props.classes.accountAvatar} src={this.props.userIconUrl}/>
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem>Login as {this.props.userName}</MenuItem>
+            <MenuItem><a href="/profiles">Profile</a></MenuItem>
+            <MenuItem onClick={() => this.props.handleLogout()}>Logout</MenuItem>
+          </Menu>
         </Typography>
         <List className={this.props.classes.scroll}>
           {talks}
         </List>
+        <Dialog
+          open={this.state.open}
+          onClose={(e) => this.handleClickClose(e)}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Delete message</DialogTitle>
+          <DialogContent>
+            「
+            <Emoji text={this.state.willDeleteMessage}/>
+            」
+            <br/>
+            この発言を削除します。よろしいですか？
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => this.handleClickClose(e)} color="primary">Cancel</Button>
+            <Button onClick={(e) => this.deleteTalk(e, this.state.willDeleteTalkId)}>Delete Message</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
@@ -207,6 +257,7 @@ Channel.propTypes = {
   handleLogout: PropTypes.func,
   userId: PropTypes.number,
   userName: PropTypes.string,
+  userIconUrl: PropTypes.string,
   handleDeleteTalk: PropTypes.func,
 }
 

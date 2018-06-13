@@ -117,6 +117,11 @@ class TalkForm extends React.Component {
       type: 'search',
       placeholder: `Message #${selectedChannelName}`
     }
+    // 入力フォームの上に @ の候補を出すために候補の数に応じて描画位置を動的に切り替える
+    const height = 40 + (this.state.suggessions.length * 40)
+    const suggessionsHeightPx = `-${height}px`
+    const containerOpen = Object.assign(autoSuggestTheme.suggestionsContainerOpen, {marginTop: suggessionsHeightPx})
+    const suggestTheme = Object.assign(autoSuggestTheme, {suggestionsContainerOpen: containerOpen})
     return (
       <div>
         <form onSubmit={(e) => this.handleSendTalk(e, selectedChannelId, userId)}>
@@ -129,7 +134,7 @@ class TalkForm extends React.Component {
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
                 inputProps={inputProps}
-                theme={autoSuggestTheme}
+                theme={suggestTheme}
               />
             </Grid>
             <Grid item xs={2}>

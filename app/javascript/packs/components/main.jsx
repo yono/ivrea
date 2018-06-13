@@ -34,16 +34,12 @@ class Main extends React.Component {
       selectedChannelName: "",
       userId: 0,
       userName: "",
+      userIconUrl: "",
       formValue: "",
       _notificationSystem: null,
       accounts: [],
     }
     this._addNotification = this._addNotification.bind(this);
-    this.callbackFunc = this.callbackFunc.bind(this)
-  }
-
-  callbackFunc(channel) {
-    this.handleClickChannel(channel.id, channel.name);
   }
 
   _addNotification(channel, talk) {
@@ -73,28 +69,28 @@ class Main extends React.Component {
     this.subscriptChannelList();
     axios.get('/channels.json').then((response) => {
       const channels = response.data
+      // 初期表示時はとりあえず先頭のチャンネルを表示する
       const selectedChannelId = channels[0].id
       const selectedChannelName = channels[0].name
       axios.get(`/channels/${selectedChannelId}/talks.json`).then((response) => {
-        const talks = response.data
+        const selectedTalks = response.data
         axios.get("/sessions.json").then((response) => {
           const user = response.data
           const userId = user.id
           const userName = user.name
+          const userIconUrl = user.icon_url
           axios.get("/accounts.json").then((response) => {
             const accounts = response.data
             this.setState({
               channels: channels.map(function (channel) {
-                if (channel.id === selectedChannelId) {
-                  return {id: channel.id, name: channel.name, talks: talks};
-                } else {
-                  return {id: channel.id, name: channel.name, talks: []};
-                }
+                const talks = channel.id === selectedChannelId ? selectedTalks : []
+                return {id: channel.id, name: channel.name, talks: talks};
               }),
               selectedChannelId: selectedChannelId,
               selectedChannelName: selectedChannelName,
               userId: userId,
               userName: userName,
+              userIconUrl: userIconUrl,
               _notificationSystem: this.refs.notificationSystem,
               accounts: accounts,
             })
@@ -267,6 +263,8 @@ class Main extends React.Component {
       } else {
         this.setState({channels: channels})
       }
+    }).catch((response) => {
+      console.log(response)
     })
   }
 
@@ -303,6 +301,7 @@ class Main extends React.Component {
               handleLogout={() => this.handleLogout()}
               userId={this.state.userId}
               userName={this.state.userName}
+              userIconUrl={this.state.userIconUrl}
               handleDeleteTalk={(e, talkId) => this.handleDeleteTalk(e, talkId)}
               />
             <TalkForm
