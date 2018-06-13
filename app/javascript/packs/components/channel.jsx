@@ -41,6 +41,7 @@ const styles = theme => ({
   channelListItem: {
     paddingTop: '0px',
     paddingBottom: '0px',
+    marginBottom: '6px'
   },
   channelCard: {
     boxShadow: 'none',
@@ -87,6 +88,10 @@ const styles = theme => ({
       borderBottomRightRadius: 16,
       cursor: 'pointer'
     }
+  },
+  createdAt: {
+    marginLeft: '10px',
+    color: '#bbb',
   }
 });
 
@@ -135,13 +140,13 @@ class Channel extends React.Component {
           <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
             <Card className={this.props.classes.channelCard}>
               <CardContent className={this.props.classes.channelCardContent}>
-                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px'}}/>
+                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px', marginTop: '4px'}}/>
                 <div style={{float: 'left', paddingBottom: '16px'}}>
                   <Typography className={this.props.classes.user}>
                     <span style={{fontWeight: 'bold'}}>{talk.user_name}</span>
-                    {` ${talk.created_at}`}
+                    <span className={this.props.classes.createdAt}>{`${talk.created_at}`}</span>
                   </Typography>
-                  <Typography style={{fontSize: '16px'}}>
+                  <Typography style={{fontSize: '18px'}}>
                     <Emoji text={talk.note}/>
                   </Typography>
                 </div>
