@@ -260,6 +260,8 @@ class Main extends React.Component {
       } else {
         this.setState({channels: channels})
       }
+    }).catch((response) => {
+      console.log(response)
     })
   }
 
