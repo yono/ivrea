@@ -39,11 +39,6 @@ class Main extends React.Component {
       accounts: [],
     }
     this._addNotification = this._addNotification.bind(this);
-    this.callbackFunc = this.callbackFunc.bind(this)
-  }
-
-  callbackFunc(channel) {
-    this.handleClickChannel(channel.id, channel.name);
   }
 
   _addNotification(channel, talk) {
