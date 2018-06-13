@@ -160,24 +160,6 @@ class Channel extends React.Component {
                 })()}
               </CardContent>
             </Card>
-            <Dialog
-              open={this.state.open}
-              onClose={(e) => this.handleClickClose(e)}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Delete message</DialogTitle>
-              <DialogContent>
-                「
-                <Emoji text={this.state.willDeleteMessage}/>
-                」
-                <br/>
-                この発言を削除します。よろしいですか？
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={(e) => this.handleClickClose(e)} color="primary">Cancel</Button>
-                <Button onClick={(e) => this.deleteTalk(e, this.state.willDeleteTalkId)}>Delete Message</Button>
-              </DialogActions>
-            </Dialog>
           </ListItem>
         )
       }.bind(this)
@@ -195,6 +177,24 @@ class Channel extends React.Component {
         <List className={this.props.classes.scroll}>
           {talks}
         </List>
+        <Dialog
+          open={this.state.open}
+          onClose={(e) => this.handleClickClose(e)}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Delete message</DialogTitle>
+          <DialogContent>
+            「
+            <Emoji text={this.state.willDeleteMessage}/>
+            」
+            <br/>
+            この発言を削除します。よろしいですか？
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => this.handleClickClose(e)} color="primary">Cancel</Button>
+            <Button onClick={(e) => this.deleteTalk(e, this.state.willDeleteTalkId)}>Delete Message</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }
