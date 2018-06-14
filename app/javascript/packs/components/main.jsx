@@ -67,6 +67,7 @@ class Main extends React.Component {
   componentDidMount() {
     this.subscriptChannel();
     this.subscriptChannelList();
+    this.subscriptAccount();
     axios.get('/channels.json').then((response) => {
       const channels = response.data
       // 初期表示時はとりあえず先頭のチャンネルを表示する
@@ -182,28 +183,46 @@ class Main extends React.Component {
     App.channelList.received = App.channelList.received.bind(this);
   }
 
+  subscriptAccount() {
+    App.account = App.cable.subscriptions.create("AccountChannel", {
+      connected() {
+      },
+      disconnected() {
+      },
+      received(data) {
+        const user = data
+        const accounts = this.state.accounts
+        const existUser = accounts.find(function(a) { return a.id === user.id }.bind(this))
+        if (existUser) {
+          const newAccounts = accounts.filter(function(a) { return a.id !== user.id }.bind(this)).concat([user])
+          this.setState({accounts: newAccounts})
+        } else {
+          this.setState({accounts: accounts.concat([user])})
+        }
+      }
+    });
+    App.account.received = App.account.received.bind(this);
+  }
+
   handleClickChannel(i, name) {
     const selectedChannelId = i
     const selectedChannelName = name
     const selectedChannelTalks = this.state.channels.find(function(o) {return o.id === selectedChannelId}.bind(this)).talks
+    this.setState({selectedChannelId: selectedChannelId,
+                   selectedChannelName: selectedChannelName})
     const talkUrl = selectedChannelTalks.length > 0 ?
       `/channels/${selectedChannelId}/talks.json?after=${selectedChannelTalks[selectedChannelTalks.length - 1].id}` :
       `/channels/${selectedChannelId}/talks.json`
 
     axios.get(talkUrl).then((response) => {
       const newTalks = response.data;
-      if (newTalks.length === 0) {
-        this.setState({selectedChannelId: selectedChannelId,
-                       selectedChannelName: selectedChannelName})
-      } else {
+      if (newTalks.length > 0) {
         const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === selectedChannelId }.bind(this));
         const targetChannel = this.state.channels[targetChannelIndex];
         const channel = {id: selectedChannelId, name: selectedChannelName, talks: targetChannel.talks.concat(newTalks)};
         var _channels = this.state.channels.slice();
         _channels.splice(targetChannelIndex, 1, channel);
-        this.setState({channels: _channels,
-                       selectedChannelId: selectedChannelId,
-                       selectedChannelName: selectedChannelName})
+        this.setState({channels: _channels})
       }
     }).catch((response) => {
       console.log(response)

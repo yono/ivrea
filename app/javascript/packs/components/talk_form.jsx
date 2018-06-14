@@ -57,10 +57,10 @@ const autoSuggestTheme = {
   }
 }
 
-const getSuggestionValue = suggestion => suggestion;
+const getSuggestionValue = suggestion => suggestion.name;
 
 const renderSuggestion = suggestion => (
-  <span>{suggestion}</span>
+  <span>{suggestion.name}</span>
 );
 
 class TalkForm extends React.Component {
@@ -90,7 +90,7 @@ class TalkForm extends React.Component {
 
   getSuggestions(value) {
     const suggessions = this.props.accounts.filter(function(item) {
-      return item.indexOf(value) == 0;
+      return item.name.indexOf(value) == 0;
     })
     return suggessions;
   }
