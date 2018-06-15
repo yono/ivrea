@@ -17,6 +17,9 @@ class RegistrationsController < ApplicationController
         @user.save!
       end
       session[:user_id] = @user.id
+      account = @user.attributes.slice("id", "name")
+      account = { name: "@#{account["name"]}", id: account["id"] }
+      ActionCable.server.broadcast 'account_channel', account
       redirect_to root_path
     else
       render :new
