@@ -16,6 +16,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import Emoji from 'react-emoji-render';
+import Message from './message';
 
 const styles = theme => ({
   user: {
@@ -124,11 +125,11 @@ class Channel extends React.Component {
     }
   }
 
-  handleClickOpen(e, talkId, message) {
+  handleClickOpen(e, talk) {
     this.setState({
       open: true,
-      willDeleteTalkId: talkId,
-      willDeleteMessage: message
+      willDeleteTalkId: talk.id,
+      willDeleteMessage: talk.note,
     })
   }
 
@@ -157,35 +158,13 @@ class Channel extends React.Component {
     const selectedChannelName = this.props.selectedChannelName
     const talks = this.props.talks.map(function (talk) {
         return (
-          <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
-            <Card className={this.props.classes.channelCard}>
-              <CardContent className={this.props.classes.channelCardContent}>
-                <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px', marginTop: '4px'}}/>
-                <div style={{float: 'left', paddingBottom: '16px'}}>
-                  <Typography className={this.props.classes.user}>
-                    <span style={{fontWeight: 'bold'}}>{talk.user_name}</span>
-                    <span className={this.props.classes.createdAt}>{`${talk.created_at}`}</span>
-                  </Typography>
-                  <Typography style={{fontSize: '18px'}}>
-                    <Emoji text={talk.note}/>
-                  </Typography>
-                </div>
-                {(() => {
-                  if (talk.user_id === this.props.userId) {
-                    return (<div style={{float: 'right'}}>
-                      <Typography>
-                        <Icon
-                          className={this.props.classes.deleteMessage}
-                          onClick={(e) => this.handleClickOpen(e, talk.id, talk.note)}>
-                          clear
-                        </Icon>
-                      </Typography>
-                    </div>
-                  )}
-                })()}
-              </CardContent>
-            </Card>
-          </ListItem>
+          <Message
+            talk={talk}
+            handleClickOpen={(e, talk) => this.handleClickOpen(e, talk)}
+            userId={this.props.userId}
+            handleUpdateTalk={(e, talkId, message) => this.props.handleUpdateTalk(e, talkId, message)}
+            key={talk.id}
+          />
         )
       }.bind(this)
     )
@@ -259,6 +238,7 @@ Channel.propTypes = {
   userName: PropTypes.string,
   userIconUrl: PropTypes.string,
   handleDeleteTalk: PropTypes.func,
+  handleUpdateTalk: PropTypes.func,
 }
 
 export default withStyles(styles)(Channel);

@@ -9,6 +9,29 @@ class TalksController < ApplicationController
     @talks = @talks.decorate
   end
 
+  def update
+    @talk = Talk.find(params[:id])
+    if @talk.update(talk_params)
+      @talk = @talk.decorate
+      @talk_attributes = {
+        id: @talk.id,
+        note: @talk.note,
+        icon_url: @talk.user_icon_url,
+        created_at: I18n.l(@talk.created_at, format: :short),
+        updated_at: @talk.updated_at,
+        user_name: @talk.user_name,
+        user_id: @talk.user_id,
+        channel_id: @talk.channel_id
+      }
+      ActionCable.server.broadcast 'chat_channel', @talk_attributes
+      render json: {head: :ok}
+    else
+      render json: {status: "error",
+                    code: 500,
+                    content: {message: @talk.errors.full_messages.join}}
+    end
+  end
+
   def destroy
     @talk = Talk.find(params[:id])
     if @talk.destroy
