@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from 'material-ui/Grid';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
-import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import Dialog, {
   DialogActions,
@@ -19,18 +16,6 @@ import Emoji from 'react-emoji-render';
 import Message from './message';
 
 const styles = theme => ({
-  user: {
-    fontSize: 14,
-    paddingBottom: 4,
-  },
-  title: {
-    marginTop: 16,
-    fontSize: 14,
-  },
-  all: {
-    height: '90%',
-    minHeight: '90%',
-  },
   allScroll: {
     height: '90%',
     minHeight: '90%',
@@ -41,25 +26,6 @@ const styles = theme => ({
     minHeight: '85%',
     overflow: 'auto',
   },
-  channelListItem: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    marginBottom: '6px'
-  },
-  channelCard: {
-    boxShadow: 'none',
-    width: '100%',
-    '&:hover': {
-      backgroundColor: '#f7f7f7'
-    }
-  },
-  channelCardContent: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    '&:lastChild': {
-      paddingBottom: '0px',
-    }
-  },
   channelHeader: {
     marginTop: '26px',
     marginBottom: '20px',
@@ -67,18 +33,6 @@ const styles = theme => ({
     fontSize: '20px',
     paddingLeft: '30px',
     borderBottom: 'thin solid #ddd',
-  },
-  logout: {
-    float: 'right',
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    marginTop: '0px',
-    marginBottom: '0px',
-    fontSize: '12px',
-  },
-  profile: {
-    float: 'right',
-    fontSize: '12px',
   },
   accountIcon: {
     float: 'right',
@@ -89,22 +43,6 @@ const styles = theme => ({
     height: '32px',
     width: '32px',
   },
-  deleteMessage: {
-    '&:hover': {
-      borderStyle: 'solid',
-      borderColor: '#2d2d2d',
-      borderWidth: '1px',
-      borderTopLeftRadius: 16,
-      borderTopRightRadius: 16,
-      borderBottomLeftRadius: 16,
-      borderBottomRightRadius: 16,
-      cursor: 'pointer'
-    }
-  },
-  createdAt: {
-    marginLeft: '10px',
-    color: '#bbb',
-  }
 });
 
 class Channel extends React.Component {

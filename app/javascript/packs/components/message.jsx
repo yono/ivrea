@@ -1,44 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from 'material-ui/Grid';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import { ListItem } from 'material-ui/List';
+import Card, { CardContent } from 'material-ui/Card';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Menu, { MenuItem } from 'material-ui/Menu';
 import Emoji from 'react-emoji-render';
 
 const styles = theme => ({
   user: {
     fontSize: 14,
     paddingBottom: 4,
-  },
-  title: {
-    marginTop: 16,
-    fontSize: 14,
-  },
-  all: {
-    height: '90%',
-    minHeight: '90%',
-  },
-  allScroll: {
-    height: '90%',
-    minHeight: '90%',
-    overflow: 'auto',
-  },
-  scroll: {
-    height: '85%',
-    minHeight: '85%',
-    overflow: 'auto',
   },
   channelListItem: {
     paddingTop: '0px',
@@ -58,35 +31,6 @@ const styles = theme => ({
     '&:lastChild': {
       paddingBottom: '0px',
     }
-  },
-  channelHeader: {
-    marginTop: '26px',
-    marginBottom: '20px',
-    fontWeight: 'bold',
-    fontSize: '20px',
-    paddingLeft: '30px',
-    borderBottom: 'thin solid #ddd',
-  },
-  logout: {
-    float: 'right',
-    paddingTop: '0px',
-    paddingBottom: '0px',
-    marginTop: '0px',
-    marginBottom: '0px',
-    fontSize: '12px',
-  },
-  profile: {
-    float: 'right',
-    fontSize: '12px',
-  },
-  accountIcon: {
-    float: 'right',
-    marginTop: '-16px',
-    marginRight: '10px',
-  },
-  accountAvatar: {
-    height: '32px',
-    width: '32px',
   },
   deleteMessage: {
     '&:hover': {
