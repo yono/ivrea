@@ -47,7 +47,19 @@ const styles = theme => ({
   createdAt: {
     marginLeft: '10px',
     color: '#bbb',
-  }
+  },
+  input: {
+    width: '80%',
+    height: '40px',
+    paddingLeft: '0px',
+    marginLeft: '0px',
+    border: '1px solid #aaa',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    fontSize: 14,
+  },
 });
 
 class Message extends React.Component {
@@ -59,7 +71,7 @@ class Message extends React.Component {
       content: "",
     }
     this.handleInput = this.handleInput.bind(this)
-    this.hoge = this.hoge.bind(this)
+    this.updateMessage = this.updateMessage.bind(this)
   }
 
   handleFormOpen(e) {
@@ -83,7 +95,7 @@ class Message extends React.Component {
     }
   }
 
-  hoge() {
+  updateMessage() {
     this.props.handleUpdateTalk(undefined, this.props.talk.id, this.state.content)
     this.setState({
       open: false,
@@ -95,11 +107,11 @@ class Message extends React.Component {
     const talk = this.props.talk;
     const open = this.state.open;
     return (
-      <ListItem className={this.props.classes.channelListItem} id={'note-' + talk.id} key={talk.id} value={talk.id}>
+      <ListItem className={this.props.classes.channelListItem} id={`note-${talk.id}`} key={talk.id} value={talk.id}>
         <Card className={this.props.classes.channelCard}>
           <CardContent className={this.props.classes.channelCardContent}>
             <Avatar src={talk.icon_url} style={{float: 'left', marginRight: '10px', marginTop: '4px'}}/>
-            <div style={{float: 'left', paddingBottom: '16px'}}>
+            <div style={{float: 'left', paddingBottom: '16px', width: '80%'}}>
               <Typography className={this.props.classes.user}>
                 <span style={{fontWeight: 'bold'}}>{talk.user_name}</span>
                 <span className={this.props.classes.createdAt}>{`${talk.created_at}`}</span>
@@ -108,8 +120,9 @@ class Message extends React.Component {
                 if (open) {
                   return (
                     <div>
-                      <input type='text' value={this.state.content} onChange={(e) => this.handleInput(e)}/>
-                      <button type="submit" onClick={() => this.hoge()}>保存</button>
+                      <input className={this.props.classes.input} type='text' value={this.state.content} onChange={(e) => this.handleInput(e)}/>
+                      <button type="submit" onClick={() => this.updateMessage()}>保存</button>
+                      <button type="button" onClick={(e) => this.handleFormClose(e)}>キャンセル</button>
                     </div>
                   )
                 } else {
@@ -141,19 +154,6 @@ class Message extends React.Component {
                       className={this.props.classes.deleteMessage}
                       onClick={(e) => this.handleFormOpen(e)}>
                       create
-                    </Icon>
-                  </Typography>
-                </div>
-              )}
-            })()}
-            {(() => {
-              if (talk.user_id === this.props.userId && open) {
-                return (<div style={{float: 'right'}}>
-                  <Typography>
-                    <Icon
-                      className={this.props.classes.deleteMessage}
-                      onClick={(e) => this.handleFormClose(e)}>
-                      clear
                     </Icon>
                   </Typography>
                 </div>
