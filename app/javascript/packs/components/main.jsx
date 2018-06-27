@@ -138,7 +138,7 @@ class Main extends React.Component {
           const targetChannel = this.state.channels[targetChannelIndex];
           const targetTalkIndex = targetChannel.talks.findIndex(function(o) { return o.id === talk.id }.bind(this));
           var channel;
-          if (targetTalkIndex) {
+          if (targetTalkIndex > 0) {
             var targetTalks = targetChannel.talks
             targetTalks.splice(targetTalkIndex, 1, talk)
             channel = {id: targetChannel.id, name: targetChannel.name, talks: targetTalks};
