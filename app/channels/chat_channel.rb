@@ -21,6 +21,7 @@ class ChatChannel < ApplicationCable::Channel
       note: talk.note,
       icon_url: talk.user_icon_url,
       created_at: I18n.l(talk.created_at, format: :short),
+      updated_at: talk.updated_at,
       user_name: talk.user_name,
       user_id: talk.user_id,
       channel_id: talk.channel_id

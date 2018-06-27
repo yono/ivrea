@@ -128,20 +128,26 @@ class Main extends React.Component {
             return;
           }
 
-          if (talk.channel_id === this.state.selectedChannelId) {
+          if (talk.channel_id !== this.state.selectedChannelId && talk.note.indexOf(`@${this.state.userName}`) != -1) {
             const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
             const targetChannel = this.state.channels[targetChannelIndex];
-            const channel = {id: this.state.selectedChannelId, name: this.state.selectedChannelName, talks: targetChannel.talks.concat([talk])};
-            var _channels = this.state.channels.slice();
-            _channels.splice(targetChannelIndex, 1, channel);
-            this.setState({channels: _channels});
-          } else {
-            if (talk.note.indexOf(`@${this.state.userName}`) != -1) {
-              const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
-              const targetChannel = this.state.channels[targetChannelIndex];
-              this._addNotification(targetChannel, talk);
-            }
+            this._addNotification(targetChannel, talk);
           }
+
+          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === talk.channel_id }.bind(this));
+          const targetChannel = this.state.channels[targetChannelIndex];
+          const targetTalkIndex = targetChannel.talks.findIndex(function(o) { return o.id === talk.id }.bind(this));
+          var channel;
+          if (targetTalkIndex > 0) {
+            var targetTalks = targetChannel.talks
+            targetTalks.splice(targetTalkIndex, 1, talk)
+            channel = {id: targetChannel.id, name: targetChannel.name, talks: targetTalks};
+          } else {
+            channel = {id: targetChannel.id, name: targetChannel.name, talks: targetChannel.talks.concat([talk])};
+          }
+          var _channels = this.state.channels.slice();
+          _channels.splice(targetChannelIndex, 1, channel);
+          this.setState({channels: _channels});
         },
         post(channelId, message, userId) {
           this.perform('post', {channel_id: channelId,
@@ -237,6 +243,14 @@ class Main extends React.Component {
     App.sample.post(i, _talk, userId)
   }
 
+  handleUpdateTalk(e, talkId, message) {
+    const selectedChannelId = this.state.selectedChannelId;
+    axios.put(`/channels/${selectedChannelId}/talks/${talkId}.json`, {talk: {note: message}}).then((response) => {
+    }).catch((response) => {
+      console.log(response)
+    })
+  }
+
   handleDeleteTalk(e, talkId) {
     e.preventDefault()
     const selectedChannelId = this.state.selectedChannelId;
@@ -322,6 +336,7 @@ class Main extends React.Component {
               userName={this.state.userName}
               userIconUrl={this.state.userIconUrl}
               handleDeleteTalk={(e, talkId) => this.handleDeleteTalk(e, talkId)}
+              handleUpdateTalk={(e, talkId, message) => this.handleUpdateTalk(e, talkId, message)}
               />
             <TalkForm
               selectedChannelId={this.state.selectedChannelId}

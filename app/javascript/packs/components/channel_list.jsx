@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List, {
   ListItem,
-  ListItemIcon,
   ListItemText,
   ListSubheader
 } from 'material-ui/List';
