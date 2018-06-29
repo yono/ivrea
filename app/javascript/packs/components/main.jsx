@@ -182,7 +182,19 @@ class Main extends React.Component {
             this.setState({channels: channels})
           }
         } else {
-          this.setState({channels: this.state.channels.concat([{id: channel.id, name: channel.name, talks: []}])})
+          const targetChannelIndex = this.state.channels.findIndex(function(o) { return o.id === channel.id }.bind(this));
+          const targetChannel = this.state.channels[targetChannelIndex];
+          if (targetChannelIndex > 0) {
+            const targetTalks = targetChannel.talks
+            const newChannel = {id: channel.id, name: channel.name, talks: targetTalks};
+            var _channels = this.state.channels.slice();
+            _channels.splice(targetChannelIndex, 1, newChannel)
+            this.setState({channels: _channels,
+                           selectedChannelId: newChannel.id,
+                           selectedChannelName: newChannel.name,});
+          } else {
+            this.setState({channels: this.state.channels.concat([{id: channel.id, name: channel.name, talks: []}])})
+          }
         }
       }
     });
@@ -301,6 +313,19 @@ class Main extends React.Component {
     })
   }
 
+  handleUpdateChannel(channelId, channelName) {
+    const id = channelId
+    const name = channelName
+    axios.put(`/channels/${id}.json`, {channel: {name: name}}).then((response) => {
+      const data = response.data;
+      if (data.status === "error") {
+        this._addChannelCreateFailedNotification(channelName);
+      }
+    }).catch((response) => {
+      console.log(response)
+    })
+  }
+
 
   handleLogout() {
     axios.delete('/sessions.json').then((response) => {
@@ -323,6 +348,7 @@ class Main extends React.Component {
               handleClickChannel={(i, name) => this.handleClickChannel(i, name)}
               handleCreateChannel={(name) => this.handleCreateChannel(name)}
               handleDeleteChannel={(channelId) => this.handleDeleteChannel(channelId)}
+              handleUpdateChannel={(channelId, channelName) => this.handleUpdateChannel(channelId, channelName)}
             />
           </Grid>
           <Grid item xs={9} className={this.props.classes.all}>
