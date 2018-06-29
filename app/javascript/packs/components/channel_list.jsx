@@ -70,8 +70,11 @@ class ChannelList extends React.Component {
     this.state = {
       openCreateDialog: false,
       openDeleteDialog: false,
+      openUpdateDialog: false,
       willDeleteChannelId: 0,
-      willDeleteChannelName: ""
+      willDeleteChannelName: "",
+      updateChannelId: 0,
+      updateChannelName: ""
     }
   }
 
@@ -91,6 +94,14 @@ class ChannelList extends React.Component {
     this.setState({ openDeleteDialog: false, willDeleteChannelId: 0, willDeleteChannelName: "" })
   }
 
+  handleClickOpenUpdateDialog(e, channelId, channelName) {
+    this.setState({ openUpdateDialog: true, updateChannelId: channelId, updateChannelName: channelName })
+  }
+
+  handleClickCloseUpdateDialog() {
+    this.setState({ openUpdateDialog: false, updateChannelId: 0, updateChannelName: "" })
+  }
+
   handleCreateChannel() {
     name = document.querySelector("#channelName").value
     this.props.handleCreateChannel(name)
@@ -103,6 +114,13 @@ class ChannelList extends React.Component {
     this.handleClickCloseDeleteDialog();
   }
 
+  handleUpdateChannel() {
+    const channelName = document.querySelector("#updateChannelName").value
+    const channelId = this.state.updateChannelId;
+    this.props.handleUpdateChannel(channelId, channelName)
+    this.handleClickCloseUpdateDialog()
+  }
+
   render() {
     const selectedChannelId = this.props.selectedChannelId
     const channelItems = this.props.channels.map(function (channel) {
@@ -110,6 +128,11 @@ class ChannelList extends React.Component {
       return (
         <ListItem key={channel.id} value={channel.id} className={channelTheme} onClick={() => this.props.handleClickChannel(channel.id, channel.name)}>
           <ListItemText disableTypography={true} primary={"# " + channel.name}/>
+          <Icon
+            className={this.props.classes.deleteChannel}
+            onClick={(e) => this.handleClickOpenUpdateDialog(e, channel.id, channel.name)}>
+            create
+          </Icon>
           <Icon
             className={this.props.classes.deleteChannel}
             onClick={(e) => this.handleClickOpenDeleteDialog(e, channel.id, channel.name)}>
@@ -121,50 +144,75 @@ class ChannelList extends React.Component {
 
     return (
       <div className={this.props.classes.all}>
-      <Dialog
-        open={this.state.openCreateDialog}
-        onClose={(e) => this.handleClickCloseCreateDialog(e)}
-        aria-labelledby="form-dialog-title"
-        >
-        <DialogTitle id="form-dialog-title">Create a channel</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="channelName"
-            label="Name"
-            type="text"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={(e) => this.handleClickCloseCreateDialog(e)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={(e) => this.handleCreateChannel(e)} color="primary">
-            Create Channel
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={this.state.openDeleteDialog}
-        onClose={(e) => this.handleClickCloseDeleteDialog(e)}
-        aria-labelledby="form-dialog-delete-title"
-        >
-        <DialogTitle id="form-dialog-delete-title">Delete a channel</DialogTitle>
-        <DialogContent>
-          チャンネルを削除すると発言もすべて削除されます。<br/>
-          {this.state.willDeleteChannelName}を削除してよろしいですか？
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={(e) => this.handleClickCloseDeleteDialog(e)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={(e) => this.handleDeleteChannel(e)} color="primary">
-            Delete Channel
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={this.state.openCreateDialog}
+          onClose={(e) => this.handleClickCloseCreateDialog(e)}
+          aria-labelledby="form-dialog-title"
+          >
+          <DialogTitle id="form-dialog-title">Create a channel</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="channelName"
+              label="Name"
+              type="text"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => this.handleClickCloseCreateDialog(e)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={(e) => this.handleCreateChannel(e)} color="primary">
+              Create Channel
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openDeleteDialog}
+          onClose={(e) => this.handleClickCloseDeleteDialog(e)}
+          aria-labelledby="form-dialog-delete-title"
+          >
+          <DialogTitle id="form-dialog-delete-title">Delete a channel</DialogTitle>
+          <DialogContent>
+            チャンネルを削除すると発言もすべて削除されます。<br/>
+            {this.state.willDeleteChannelName}を削除してよろしいですか？
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => this.handleClickCloseDeleteDialog(e)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={(e) => this.handleDeleteChannel(e)} color="primary">
+              Delete Channel
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.openUpdateDialog}
+          onClose={(e) => this.handleClickCloseUpdateDialog(e)}
+          aria-labelledby="form-dialog-title"
+          >
+          <DialogTitle id="form-dialog-title">Update a channel</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="updateChannelName"
+              label="Name"
+              type="text"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={(e) => this.handleClickCloseUpdateDialog(e)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={(e) => this.handleUpdateChannel(e)} color="primary">
+              Update Channel
+            </Button>
+          </DialogActions>
+        </Dialog>
         <List className={this.props.classes.all}
           subheader={<ListSubheader component="div">
           <Typography className={this.props.classes.channelHeader} >Channels

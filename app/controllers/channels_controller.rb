@@ -16,6 +16,18 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def update
+    channel = Channel.find(params[:id])
+    if channel.update(channel_params)
+      ActionCable.server.broadcast 'channel_channel', channel.attributes
+      render json: {head: :ok}
+    else
+      render json: {status: "error",
+                    code: 500,
+                    content: {message: channel.errors.full_messages.join}}
+    end
+  end
+
   def destroy
     channel = Channel.find(params[:id])
     if channel.destroy
