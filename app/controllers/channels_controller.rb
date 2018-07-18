@@ -1,6 +1,6 @@
 class ChannelsController < ApplicationController
   def index
-    @channels = Channel.all
+    @channels = Channel.order(created_at: :asc)
     render json: @channels
   end
 
